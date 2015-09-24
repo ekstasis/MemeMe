@@ -142,7 +142,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
             //   ######################## DEBUG
             // view.frame.origin.y = 0
             view.frame.origin.y -= getKeyboardHeight(notification)
-            print("\(hideShowCount) : : \(view.frame.origin.y)  Show", terminator: "")
+            print("\(hideShowCount) : : \(view.frame.origin.y)  Show")
             hideShowCount++
         }
     }
@@ -150,7 +150,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func keyboardWillHide(notification:  NSNotification) {
         if bottomTextIsBeingEdited {
             view.frame.origin.y = 0
-            print("\(hideShowCount) : : \(view.frame.origin.y)  Hide", terminator: "")
+            print("\(hideShowCount) : : \(view.frame.origin.y)  Hide")
             hideShowCount++
         }
     }
