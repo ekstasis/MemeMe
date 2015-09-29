@@ -101,11 +101,11 @@
 		32799C981BB4637D00E8D0FF /* MemeMe Swift 2 */ = {
 			isa = PBXGroup;
 			children = (
-				32799CC71BB463B100E8D0FF /* MemeEditorVC.swift */,
 				32799CC91BB463C200E8D0FF /* Main.storyboard */,
+				32799C9B1BB4637D00E8D0FF /* ViewController.swift */,
+				32799CC71BB463B100E8D0FF /* MemeEditorVC.swift */,
 				32799CCB1BB463C900E8D0FF /* Meme.swift */,
 				32799C991BB4637D00E8D0FF /* AppDelegate.swift */,
-				32799C9B1BB4637D00E8D0FF /* ViewController.swift */,
 				32799CA01BB4637D00E8D0FF /* Assets.xcassets */,
 				32799CA21BB4637D00E8D0FF /* LaunchScreen.storyboard */,
 				32799CA51BB4637D00E8D0FF /* Info.plist */,
@@ -483,6 +483,7 @@
 				32799CC01BB4637D00E8D0FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		32799CC11BB4637D00E8D0FF /* Build configuration list for PBXNativeTarget "MemeMe Swift 2Tests" */ = {
 			isa = XCConfigurationList;
@@ -491,6 +492,7 @@
 				32799CC31BB4637D00E8D0FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		32799CC41BB4637D00E8D0FF /* Build configuration list for PBXNativeTarget "MemeMe Swift 2UITests" */ = {
 			isa = XCConfigurationList;
@@ -499,6 +501,7 @@
 				32799CC61BB4637D00E8D0FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

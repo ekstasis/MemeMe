@@ -26,9 +26,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     var meme : Meme!
     var memedImage : UIImage!
     
-    //  ##### DEBUG
-    var hideShowCount = 0
-    
     // only slide view up when editing bottom text
     var bottomTextIsBeingEdited = false
     
@@ -139,19 +136,14 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func keyboardWillShow(notification:  NSNotification) {
         if bottomTextIsBeingEdited {
             
-            //   ######################## DEBUG
-            // view.frame.origin.y = 0
+            view.frame.origin.y = 0
             view.frame.origin.y -= getKeyboardHeight(notification)
-            print("\(hideShowCount) : : \(view.frame.origin.y)  Show")
-            hideShowCount++
         }
     }
     
     func keyboardWillHide(notification:  NSNotification) {
         if bottomTextIsBeingEdited {
             view.frame.origin.y = 0
-            print("\(hideShowCount) : : \(view.frame.origin.y)  Hide")
-            hideShowCount++
         }
     }
     
