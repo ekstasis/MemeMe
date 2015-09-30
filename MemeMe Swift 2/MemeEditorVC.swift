@@ -8,6 +8,28 @@
 
 import UIKit
 
+extension UIImageView {
+    
+    func displayedImageBounds() -> CGRect {
+        
+        let boundsWidth = bounds.size.width
+        let boundsHeight = bounds.size.height
+        let imageSize = image!.size
+        let imageRatio = imageSize.width / imageSize.height
+        let viewRatio = boundsWidth / boundsHeight
+        if ( viewRatio > imageRatio ) {
+            let scale = boundsHeight / imageSize.height
+            let width = scale * imageSize.width
+            let topLeftX = (boundsWidth - width) * 0.5
+            return CGRectMake(topLeftX, 0, width, boundsHeight)
+        }
+        let scale = boundsWidth / imageSize.width
+        let height = scale * imageSize.height
+        let topLeftY = (boundsHeight - height) * 0.5
+        return CGRectMake(0,topLeftY, boundsWidth,height)
+    }
+}
+
 class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate,
 UINavigationControllerDelegate, UITextFieldDelegate {
     
@@ -23,8 +45,9 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         case Fill, Fit
     }
     
-    var meme : Meme!
+    //    var meme : Meme!
     var memedImage : UIImage!
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     // only slide view up when editing bottom text
     var bottomTextIsBeingEdited = false
@@ -107,12 +130,45 @@ UINavigationControllerDelegate, UITextFieldDelegate {
             }
         }
         
-        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Phone {
-            presentViewController(activityVC, animated: true, completion: nil)
-        } else {
-            let popup: UIPopoverController = UIPopoverController(contentViewController: activityVC)
-            popup.presentPopoverFromBarButtonItem(shareButton, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        presentViewController(activityVC, animated: true, completion: nil)
+        
+        //        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Phone {
+        //            presentViewController(activityVC, animated: true, completion: nil)
+        //        } else {
+        //            let popup: UIPopoverController = UIPopoverController(contentViewController: activityVC)
+        //            popup.presentPopoverFromBarButtonItem(shareButton, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        //        }
+    }
+    
+    func saveMeme() {
+        let newMeme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, image: picView.image!, memedImage: memedImage)
+        appDelegate.allMemes.append(newMeme)
+        storeMemes()
+    }
+    
+    func storeMemes() {
+        let nsMutableArrayForMemes = NSMutableArray()
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        for meme in appDelegate.allMemes {
+            let memeClass = SentMemeWrapper(inMeme: meme)
+            nsMutableArrayForMemes.addObject(memeClass)
         }
+        
+        let memesArchiveData = NSKeyedArchiver.archivedDataWithRootObject(nsMutableArrayForMemes)
+        
+        userDefaults.setObject(memesArchiveData, forKey: "Sent Memes")
+    }
+    
+    func renderMeme() -> UIImage {
+        
+//        let imageBounds = picView.displayedImageBounds()
+       print(picView.frame.size)
+        UIGraphicsBeginImageContext(picView.frame.size)
+        view.drawViewHierarchyInRect(picView.frame, afterScreenUpdates: true)
+        let memedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return memedImage
     }
     
     @IBAction func userCanceledEdit(sender: UIBarButtonItem) {
@@ -170,17 +226,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         bottomTextField.attributedPlaceholder = NSAttributedString(string: "Bottom", attributes: memeMeTextAttributes)
     }
     
-    func saveMeme() {
-        meme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, image: picView.image!, memedImage: memedImage)
-    }
     
-    func renderMeme() -> UIImage {
-        UIGraphicsBeginImageContext(view.frame.size)
-        view.drawViewHierarchyInRect(view.frame, afterScreenUpdates: true)
-        let memedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return memedImage
-    }
     
     /*
     *   Delegate Functions
@@ -199,15 +245,15 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         shouldEnableTopButtons(true)
         setAspectMode(.Fit)
     }
-//    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-//        
-//        let pickedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
-//        picView.image = pickedImage
-//        dismissViewControllerAnimated(true, completion: nil)
-//        
-//        shouldEnableTopButtons(true)
-//        setAspectMode(.Fit)
-//    }
+    //    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    //
+    //        let pickedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
+    //        picView.image = pickedImage
+    //        dismissViewControllerAnimated(true, completion: nil)
+    //
+    //        shouldEnableTopButtons(true)
+    //        setAspectMode(.Fit)
+    //    }
     
     // Text Field Delegate Functions
     func textFieldShouldReturn(textField: UITextField) -> Bool {
