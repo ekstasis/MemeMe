@@ -8,6 +8,8 @@
 
 import UIKit
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 extension UIImageView {
     
     func displayedImageBounds() -> CGRect {
@@ -149,7 +151,8 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func storeMemes() {
        appDelegate.saveMemes()
     }
-    
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     func renderMeme() -> UIImage {
         
         // Get bounds of album image only
