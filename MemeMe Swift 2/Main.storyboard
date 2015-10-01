@@ -107,7 +107,13 @@
                             <outlet property="delegate" destination="fSn-JE-QyK" id="9Tm-Sl-ByW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="lRH-TQ-9Ar"/>
+                    <navigationItem key="navigationItem" id="lRH-TQ-9Ar">
+                        <barButtonItem key="leftBarButtonItem" title="Clear" id="YCz-9E-GrE">
+                            <connections>
+                                <action selector="clearButton:" destination="fSn-JE-QyK" id="lCe-z5-HlG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vu5-EO-spH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

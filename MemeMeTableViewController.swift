@@ -14,10 +14,24 @@ class MemeMeTableViewController: UITableViewController {
     
     var sentMemes : [Meme]!
     
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    
     override func viewWillAppear(animated: Bool) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "editNewMeme")
+        refreshTable()
+    }
+    
+    @IBAction func clearButton(sender: UIBarButtonItem) {
+        appDelegate.clearTable()
+        refreshTable()
+    }
+    
+    func refreshTable() {
         sentMemes = (UIApplication.sharedApplication().delegate as! AppDelegate).allMemes
-        tableView.reloadData()
+        dispatch_async(dispatch_get_main_queue(),
+            
+            { self.tableView.reloadData() }
+        )
     }
     
     func editNewMeme() {

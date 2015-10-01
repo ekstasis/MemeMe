@@ -147,27 +147,24 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     func storeMemes() {
-        let nsMutableArrayForMemes = NSMutableArray()
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        
-        for meme in appDelegate.allMemes {
-            let memeClass = SentMemeWrapper(inMeme: meme)
-            nsMutableArrayForMemes.addObject(memeClass)
-        }
-        
-        let memesArchiveData = NSKeyedArchiver.archivedDataWithRootObject(nsMutableArrayForMemes)
-        
-        userDefaults.setObject(memesArchiveData, forKey: "Sent Memes")
+       appDelegate.saveMemes()
     }
     
     func renderMeme() -> UIImage {
         
-//        let imageBounds = picView.displayedImageBounds()
-       print(picView.frame.size)
-        UIGraphicsBeginImageContext(picView.frame.size)
-        view.drawViewHierarchyInRect(picView.frame, afterScreenUpdates: true)
+        // Get bounds of album image only
+        let imageBounds = picView.displayedImageBounds()
+        
+        print("imagebounds: \(imageBounds)")
+        print("picview bounds: \(picView.bounds)")
+        
+        UIGraphicsBeginImageContext(imageBounds.size)
+        
+        // picView contains the album image and fits between top and bottom toolbars 
+        picView.drawViewHierarchyInRect(imageBounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        print(memedImage.size)
         return memedImage
     }
     

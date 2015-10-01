@@ -15,6 +15,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var allMemes = [Meme]()
     
+    func clearTable() {
+        allMemes = []
+        saveMemes()
+    }
+    
+    func saveMemes() {
+        
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        
+        let nsMutableArrayForMemes = NSMutableArray()
+        
+        for meme in allMemes {
+            let memeClass = SentMemeWrapper(inMeme: meme)
+            nsMutableArrayForMemes.addObject(memeClass)
+        }
+        
+        let memesArchiveData = NSKeyedArchiver.archivedDataWithRootObject(nsMutableArrayForMemes)
+        
+        userDefaults.setObject(memesArchiveData, forKey: "Sent Memes")
+    }
+    
+    
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
