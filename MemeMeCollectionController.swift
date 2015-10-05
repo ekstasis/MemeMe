@@ -1,5 +1,5 @@
 //
-//  MemeMeTableViewController.swift
+//  MemeMeCollectionController.swift
 //  MemeMe Swift 2
 //
 //  Created by Ekstasis on 9/29/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MemeMeTableViewController: UITableViewController {
+class MemeMeCollectionController: UICollectionViewController {
 
     @IBOutlet weak var cellImage: UIImageView!
     
@@ -18,13 +18,18 @@ class MemeMeTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "editNewMeme")
-        refreshTable()
+        sentMemes = appDelegate.allMemes
+    }
+    
+    @IBAction func clearButton(sender: UIBarButtonItem) {
+//        appDelegate.clearTable()
+//        refreshTable()
     }
     
     func refreshTable() {
         sentMemes = appDelegate.allMemes
         
-        dispatch_async(dispatch_get_main_queue(), { self.tableView.reloadData() } )
+//        dispatch_async(dispatch_get_main_queue(), { self.tableView.reloadData() } )
     }
     
     func editNewMeme() {
@@ -34,30 +39,31 @@ class MemeMeTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sentMemes.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SentMemeTableCell", forIndexPath: indexPath) as! MemeTableViewCell
+    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Collection Cell", forIndexPath: indexPath) as! MemeMeCollectionViewCell
         
         print("dequeued cell")
 
         let meme = sentMemes[indexPath.row]
-        let cellImageView = cell.contentView.subviews[0] as! UIImageView
-//        cell.imageView?.image = meme.memedImage
-        cellImageView.image = meme.memedImage
-        cell.textLabel?.text = meme.topText
+        
+        cell.collectionCellImage.image = meme.memedImage
+//        cell.textLabel?.text = meme.topText
 //        cell.detailTextLabel?.text = meme.topText
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let detailVC = storyboard?.instantiateViewControllerWithIdentifier("DetailView") as! MemeMeDetailViewController
-        detailVC.memeIndex = indexPath.row
-        navigationController?.pushViewController(detailVC, animated: true)
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
+        let detailVC = storyboard?.instantiateViewControllerWithIdentifier("DetailView") as! MemeMeDetailViewController
+        
+        detailVC.memeIndex = indexPath.row
+        
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 
     /*

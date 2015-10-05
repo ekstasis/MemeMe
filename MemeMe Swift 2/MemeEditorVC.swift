@@ -8,10 +8,8 @@
 
 import UIKit
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
 extension UIImageView {
-    
+
     func displayedImageBounds() -> CGRect {
         
         let boundsWidth = bounds.size.width
@@ -47,7 +45,8 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         case Fill, Fit
     }
     
-    //    var meme : Meme!
+    var memeIndex : Int?
+    var meme : Meme!
     var memedImage : UIImage!
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
@@ -72,6 +71,9 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         super.viewWillAppear(animated)
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
         subscribeToKeyboardNotification()
+        if let index = memeIndex {
+            meme = appDelegate.allMemes[index]
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -82,7 +84,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func shouldEnableTopButtons(enabledOrNot: Bool) {
         shareButton.enabled = enabledOrNot
         toggleAspectButton.enabled = enabledOrNot
-        cancelButton.enabled = enabledOrNot
+//        cancelButton.enabled = enabledOrNot
     }
     
     func setAspectMode(aspect: AspectMode) {
@@ -144,7 +146,11 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     
     func saveMeme() {
         let newMeme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, image: picView.image!, memedImage: memedImage)
-        appDelegate.allMemes.append(newMeme)
+        if let index = memeIndex {
+            appDelegate.allMemes[index] = newMeme
+        } else {
+            appDelegate.allMemes.append(newMeme)
+        }
         storeMemes()
     }
     
@@ -157,7 +163,8 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         
         // Get bounds of album image only
         let imageBounds = picView.displayedImageBounds()
-        
+       
+        print("image.size:  \(picView.image!.size)")
         print("imagebounds: \(imageBounds)")
         print("picview bounds: \(picView.bounds)")
         
@@ -167,16 +174,17 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         picView.drawViewHierarchyInRect(imageBounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        print(memedImage.size)
+        print("memedimagesize: \(memedImage.size)")
         return memedImage
     }
     
     @IBAction func userCanceledEdit(sender: UIBarButtonItem) {
-        picView.image = nil
-        topTextField.text = nil
-        bottomTextField.text = nil
-        
-        shouldEnableTopButtons(false)
+//        picView.image = nil
+//        topTextField.text = nil
+//        bottomTextField.text = nil
+//        
+//        shouldEnableTopButtons(false)
+       navigationController?.popViewControllerAnimated(true)
     }
     
     func subscribeToKeyboardNotification() {
@@ -243,7 +251,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         dismissViewControllerAnimated(true, completion: nil)
         
         shouldEnableTopButtons(true)
-        setAspectMode(.Fit)
+//        setAspectMode(.Fit)
     }
     //    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
     //

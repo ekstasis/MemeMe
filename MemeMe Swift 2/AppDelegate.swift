@@ -15,11 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var allMemes = [Meme]()
     
-    func clearTable() {
-        allMemes = []
-        saveMemes()
-    }
-    
     func saveMemes() {
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
@@ -35,8 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         userDefaults.setObject(memesArchiveData, forKey: "Sent Memes")
     }
-    
-    
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
