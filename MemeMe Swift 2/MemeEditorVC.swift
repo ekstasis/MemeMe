@@ -158,7 +158,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
        appDelegate.saveMemes()
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     func renderMeme() -> UIImage {
         
         // Get bounds of album image only
