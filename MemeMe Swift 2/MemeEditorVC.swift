@@ -21,12 +21,14 @@ extension UIImageView {
             let scale = boundsHeight / imageSize.height
             let width = scale * imageSize.width
             let topLeftX = (boundsWidth - width) * 0.5
+//            let topLeftX = CGFloat(0.0)
             return CGRectMake(topLeftX, 0, width, boundsHeight)
         }
         let scale = boundsWidth / imageSize.width
         let height = scale * imageSize.height
         let topLeftY = (boundsHeight - height) * 0.5
-        return CGRectMake(0,topLeftY, boundsWidth,height)
+//        let topLeftY = CGFloat(0.0)
+        return CGRectMake(0, topLeftY, boundsWidth,height)
     }
 }
 
@@ -114,6 +116,8 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         pickerController.delegate = self
         pickerController.sourceType = .PhotoLibrary
         presentViewController(pickerController, animated: true, completion: nil)
+        
+        positionTextFields()
     }
     
     @IBAction func pickImageFromCamera(sender: UIBarButtonItem) {
@@ -121,6 +125,12 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         pickerController.delegate = self
         pickerController.sourceType = .Camera
         presentViewController(pickerController, animated: true, completion: nil)
+        
+        positionTextFields()
+    }
+    
+    func positionTextFields() {
+        
     }
     
     @IBAction func showActivity(sender: UIBarButtonItem) {
@@ -165,10 +175,12 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         print("imagebounds: \(imageBounds)")
         print("picview bounds: \(picView.bounds)")
         
-        UIGraphicsBeginImageContext(imageBounds.size)
+        // take snapshot of image -- returns a UIView, not an image
+        let renderedImageView = picView.resizableSnapshotViewFromRect(imageBounds, afterScreenUpdates: true, withCapInsets:  UIEdgeInsetsZero)
         
-        // picView contains the album image and fits between top and bottom toolbars 
-        picView.drawViewHierarchyInRect(imageBounds, afterScreenUpdates: true)
+        // convert snapshot UIView to UIImage
+        UIGraphicsBeginImageContext(imageBounds.size)
+        renderedImageView.drawViewHierarchyInRect(renderedImageView.bounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         print("memedimagesize: \(memedImage.size)")
