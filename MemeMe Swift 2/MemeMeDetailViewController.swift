@@ -15,7 +15,7 @@ class MemeMeDetailViewController: UIViewController {
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
 //    var memeImage : UIImage!
-    var memeIndex = 0
+    var memeIndex : Int!
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)

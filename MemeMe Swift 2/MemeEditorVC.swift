@@ -41,11 +41,11 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     @IBOutlet weak var toggleAspectButton: UIBarButtonItem!
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     
-    enum AspectMode {
-        case Fill, Fit
-    }
+//    enum AspectMode {
+//        case Fill, Fit
+//    }
     
-    var memeIndex : Int?
+    var memeIndex : Int? // Used for editing meme rather than creating one
     var meme : Meme!
     var memedImage : UIImage!
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -54,7 +54,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     var bottomTextIsBeingEdited = false
     
     // used for toggling aspect fit vs fill
-    var aspectMode : AspectMode!
+//    var aspectMode : AspectMode!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,7 +63,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         bottomTextField.delegate = self
         
         shouldEnableTopButtons(false)
-        picView.clipsToBounds = true
+        // picView.clipsToBounds = true
         setMemeTextAttributes()
     }
     
@@ -72,8 +72,9 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
         subscribeToKeyboardNotification()
         if let index = memeIndex {
-            meme = appDelegate.allMemes[index]
+            meme = appDelegate.allMemes[index]  // otherwise it's a new meme
         }
+        navigationController?.navigationBarHidden = true
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -83,30 +84,30 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     
     func shouldEnableTopButtons(enabledOrNot: Bool) {
         shareButton.enabled = enabledOrNot
-        toggleAspectButton.enabled = enabledOrNot
+//        toggleAspectButton.enabled = enabledOrNot
 //        cancelButton.enabled = enabledOrNot
     }
     
-    func setAspectMode(aspect: AspectMode) {
-        
-        aspectMode = aspect
-        
-        switch aspectMode! {
-        case .Fit:
-            picView.contentMode = UIViewContentMode.ScaleAspectFit
-        case .Fill:
-            picView.contentMode = UIViewContentMode.ScaleAspectFill
-        }
-    }
-    
-    @IBAction func toggleFitFill(sender: UIBarButtonItem) {
-        switch aspectMode! {
-        case .Fit:
-            setAspectMode(.Fill)
-        case .Fill:
-            setAspectMode(.Fit)
-        }
-    }
+//    func setAspectMode(aspect: AspectMode) {
+//        
+//        aspectMode = aspect
+//        
+//        switch aspectMode! {
+//        case .Fit:
+//            picView.contentMode = UIViewContentMode.ScaleAspectFit
+//        case .Fill:
+//            picView.contentMode = UIViewContentMode.ScaleAspectFill
+//        }
+//    }
+//    
+//    @IBAction func toggleFitFill(sender: UIBarButtonItem) {
+//        switch aspectMode! {
+//        case .Fit:
+//            setAspectMode(.Fill)
+//        case .Fill:
+//            setAspectMode(.Fit)
+//        }
+//    }
     
     @IBAction func pickImageFromAlbum(sender: UIBarButtonItem) {
         let pickerController = UIImagePickerController()
@@ -131,6 +132,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         activityVC.completionWithItemsHandler = { (activity, success, items, error) in
             if success {
                 self.saveMeme()
+                self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
         
@@ -147,17 +149,13 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func saveMeme() {
         let newMeme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, image: picView.image!, memedImage: memedImage)
         if let index = memeIndex {
-            appDelegate.allMemes[index] = newMeme
+            appDelegate.allMemes[index] = newMeme     // editing meme
         } else {
-            appDelegate.allMemes.append(newMeme)
+            appDelegate.allMemes.append(newMeme)      // new meme
         }
-        storeMemes()
+        appDelegate.saveMemes()
     }
     
-    func storeMemes() {
-       appDelegate.saveMemes()
-    }
-
     func renderMeme() -> UIImage {
         
         // Get bounds of album image only
@@ -183,7 +181,8 @@ UINavigationControllerDelegate, UITextFieldDelegate {
 //        bottomTextField.text = nil
 //        
 //        shouldEnableTopButtons(false)
-       navigationController?.popViewControllerAnimated(true)
+//       navigationController?.popViewControllerAnimated(true)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func subscribeToKeyboardNotification() {

@@ -107,7 +107,9 @@
                             <outlet property="delegate" destination="fSn-JE-QyK" id="9Tm-Sl-ByW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="lRH-TQ-9Ar"/>
+                    <navigationItem key="navigationItem" id="lRH-TQ-9Ar">
+                        <barButtonItem key="backBarButtonItem" title="Sent Memes" id="yJD-I1-uUF"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vu5-EO-spH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -197,16 +199,18 @@
                             <outlet property="delegate" destination="FUg-2T-4EM" id="fWV-Mp-11P"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="B9V-gk-vw8"/>
+                    <navigationItem key="navigationItem" id="B9V-gk-vw8">
+                        <barButtonItem key="backBarButtonItem" title="Sent Memes" id="p8G-v2-0dO"/>
+                    </navigationItem>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GZx-aq-qSl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1140" y="646"/>
         </scene>
-        <!--Meme Editor-->
+        <!--Item-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="MemeEditor" title="Meme Editor" id="BYZ-38-t0r" customClass="MemeEditorVC" customModule="MemeMe_Swift_2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MemeEditor" id="BYZ-38-t0r" customClass="MemeEditorVC" customModule="MemeMe_Swift_2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -263,12 +267,6 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="jCf-yJ-oSE"/>
-                                    <barButtonItem title="Toggle Fit/Fill" id="DHB-PZ-n0U">
-                                        <connections>
-                                            <action selector="toggleFitFill:" destination="BYZ-38-t0r" id="Kvj-Eh-5t1"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="5Ak-dR-W80"/>
                                     <barButtonItem systemItem="cancel" id="gvl-o0-VvN">
                                         <connections>
                                             <action selector="userCanceledEdit:" destination="BYZ-38-t0r" id="cCu-Of-AWh"/>
@@ -360,7 +358,6 @@
                         <outlet property="cancelButton" destination="gvl-o0-VvN" id="wYc-zT-zEb"/>
                         <outlet property="picView" destination="uRd-o0-BaK" id="bci-vh-acr"/>
                         <outlet property="shareButton" destination="Z8Y-WN-4gF" id="Co2-5n-NGu"/>
-                        <outlet property="toggleAspectButton" destination="DHB-PZ-n0U" id="RcL-rc-ypy"/>
                         <outlet property="topTextField" destination="5fw-k4-a3B" id="fbR-yb-WIc"/>
                     </connections>
                 </viewController>

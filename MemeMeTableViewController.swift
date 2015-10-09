@@ -19,6 +19,8 @@ class MemeMeTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "editNewMeme")
         refreshTable()
+        navigationController?.navigationBarHidden = false
+        tableView.allowsMultipleSelection = false
     }
     
     func refreshTable() {
@@ -29,10 +31,11 @@ class MemeMeTableViewController: UITableViewController {
     
     func editNewMeme() {
         let editVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor")
-        navigationController?.pushViewController(editVC!, animated: true)
+//        navigationController?.pushViewController(editVC!, animated: true)
+        presentViewController(editVC!, animated: true, completion: nil)
     }
 
-    // MARK: - Table view data source
+    // Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sentMemes.count
@@ -45,7 +48,6 @@ class MemeMeTableViewController: UITableViewController {
 
         let meme = sentMemes[indexPath.row]
         let cellImageView = cell.contentView.subviews[0] as! UIImageView
-//        cell.imageView?.image = meme.memedImage
         cellImageView.image = meme.memedImage
         cell.textLabel?.text = meme.topText
 //        cell.detailTextLabel?.text = meme.topText
@@ -53,11 +55,23 @@ class MemeMeTableViewController: UITableViewController {
         return cell
     }
     
+    // Table view delegate
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let detailVC = storyboard?.instantiateViewControllerWithIdentifier("DetailView") as! MemeMeDetailViewController
         detailVC.memeIndex = indexPath.row
         navigationController?.pushViewController(detailVC, animated: true)
-        
+    }
+    
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            appDelegate.allMemes.removeAtIndex(indexPath.row)
+            refreshTable()
+        }
     }
 
     /*

@@ -19,6 +19,7 @@ class MemeMeCollectionController: UICollectionViewController {
     override func viewWillAppear(animated: Bool) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "editNewMeme")
         sentMemes = appDelegate.allMemes
+        navigationController?.navigationBarHidden = false
     }
     
     @IBAction func clearButton(sender: UIBarButtonItem) {
