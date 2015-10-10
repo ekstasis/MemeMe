@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Extension that gives bounds of the image that was picked from album/camera
 extension UIImageView {
 
     func displayedImageBounds() -> CGRect {
@@ -43,6 +44,8 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     @IBOutlet weak var toggleAspectButton: UIBarButtonItem!
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     
+    @IBOutlet weak var topTextVerticalConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomTextVerticalConstraint: NSLayoutConstraint!
 //    enum AspectMode {
 //        case Fill, Fit
 //    }
@@ -51,6 +54,13 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     var meme : Meme!
     var memedImage : UIImage!
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    
+    var imageBounds : CGRect? {
+        guard picView.image != nil else {
+            return nil
+        }
+        return picView.displayedImageBounds()
+    }
     
     // only slide view up when editing bottom text
     var bottomTextIsBeingEdited = false
@@ -86,38 +96,13 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     
     func shouldEnableTopButtons(enabledOrNot: Bool) {
         shareButton.enabled = enabledOrNot
-//        toggleAspectButton.enabled = enabledOrNot
-//        cancelButton.enabled = enabledOrNot
     }
-    
-//    func setAspectMode(aspect: AspectMode) {
-//        
-//        aspectMode = aspect
-//        
-//        switch aspectMode! {
-//        case .Fit:
-//            picView.contentMode = UIViewContentMode.ScaleAspectFit
-//        case .Fill:
-//            picView.contentMode = UIViewContentMode.ScaleAspectFill
-//        }
-//    }
-//    
-//    @IBAction func toggleFitFill(sender: UIBarButtonItem) {
-//        switch aspectMode! {
-//        case .Fit:
-//            setAspectMode(.Fill)
-//        case .Fill:
-//            setAspectMode(.Fit)
-//        }
-//    }
     
     @IBAction func pickImageFromAlbum(sender: UIBarButtonItem) {
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
         pickerController.sourceType = .PhotoLibrary
         presentViewController(pickerController, animated: true, completion: nil)
-        
-        positionTextFields()
     }
     
     @IBAction func pickImageFromCamera(sender: UIBarButtonItem) {
@@ -125,12 +110,33 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         pickerController.delegate = self
         pickerController.sourceType = .Camera
         presentViewController(pickerController, animated: true, completion: nil)
-        
-        positionTextFields()
     }
     
     func positionTextFields() {
+//        topTextField.removeConstraint(topTextVerticalConstraint)
+//        let topTextTopOfImageConstraint = NSLayoutConstraint(item: topTextField, attribute: .Top, relatedBy: .Equal, toItem: picView.image!, attribute: .Equal, multiplier: 1, constant: -10)
+//        let topTextTopOfImageConstraint = NSLayoutConstraint(item: picView.image!, attribute: .Top, relatedBy: .Equal, toItem: topTextField, attribute: .Top, multiplier: 1, constant: -10)
+//        topTextField.addConstraint(topTextTopOfImageConstraint)
+//        let newTopTextY = imageBounds!.origin.y + 10
+//        let newBottomTextY = imageBounds!.origin.y + imageBounds!.size.height - topTextField.bounds.height - 10
+//        topTextField.frame.origin.y = newTopTextY
+//        bottomTextField.frame.origin.y = newBottomTextY
         
+        topTextVerticalConstraint.constant = 0
+        bottomTextVerticalConstraint.constant = 0
+        
+        topTextVerticalConstraint.constant = imageBounds!.origin.y
+        bottomTextVerticalConstraint.constant = -(picView.bounds.height - imageBounds!.height) / 2
+        print(bottomTextVerticalConstraint.constant)
+        topTextField.hidden = false
+        bottomTextField.hidden = false
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        topTextField.hidden = true
+        bottomTextField.hidden = true
+        coordinator.animateAlongsideTransition(nil, completion: { context in
+            self.positionTextFields() } )
     }
     
     @IBAction func showActivity(sender: UIBarButtonItem) {
@@ -169,17 +175,16 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func renderMeme() -> UIImage {
         
         // Get bounds of album image only
-        let imageBounds = picView.displayedImageBounds()
        
         print("image.size:  \(picView.image!.size)")
         print("imagebounds: \(imageBounds)")
         print("picview bounds: \(picView.bounds)")
         
         // take snapshot of image -- returns a UIView, not an image
-        let renderedImageView = picView.resizableSnapshotViewFromRect(imageBounds, afterScreenUpdates: true, withCapInsets:  UIEdgeInsetsZero)
+        let renderedImageView = picView.resizableSnapshotViewFromRect(imageBounds!, afterScreenUpdates: true, withCapInsets:  UIEdgeInsetsZero)
         
         // convert snapshot UIView to UIImage
-        UIGraphicsBeginImageContext(imageBounds.size)
+        UIGraphicsBeginImageContext(imageBounds!.size)
         renderedImageView.drawViewHierarchyInRect(renderedImageView.bounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -259,19 +264,10 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         let pickedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
         picView.image = pickedImage
         dismissViewControllerAnimated(true, completion: nil)
+        positionTextFields()
         
         shouldEnableTopButtons(true)
-//        setAspectMode(.Fit)
     }
-    //    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
-    //
-    //        let pickedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
-    //        picView.image = pickedImage
-    //        dismissViewControllerAnimated(true, completion: nil)
-    //
-    //        shouldEnableTopButtons(true)
-    //        setAspectMode(.Fit)
-    //    }
     
     // Text Field Delegate Functions
     func textFieldShouldReturn(textField: UITextField) -> Bool {

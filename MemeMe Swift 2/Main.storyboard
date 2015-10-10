@@ -310,7 +310,7 @@
                             <constraint firstAttribute="height" secondItem="uRd-o0-BaK" secondAttribute="height" constant="100" id="gpI-hq-VJs"/>
                             <constraint firstItem="pqr-uq-7gB" firstAttribute="bottom" secondItem="uRd-o0-BaK" secondAttribute="bottom" constant="-20" id="isX-hy-l8z"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="2s6-1X-CNT" secondAttribute="bottom" id="lSA-zV-nF1"/>
-                            <constraint firstItem="uRd-o0-BaK" firstAttribute="top" secondItem="5fw-k4-a3B" secondAttribute="top" constant="-20" id="p87-Iu-VWd"/>
+                            <constraint firstItem="5fw-k4-a3B" firstAttribute="top" secondItem="uRd-o0-BaK" secondAttribute="top" constant="20" id="p87-Iu-VWd"/>
                             <constraint firstItem="2s6-1X-CNT" firstAttribute="top" secondItem="uRd-o0-BaK" secondAttribute="bottom" id="pzj-Cu-BA8"/>
                             <constraint firstItem="uRd-o0-BaK" firstAttribute="centerX" secondItem="5fw-k4-a3B" secondAttribute="centerX" id="qVj-9v-r1L"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="2s6-1X-CNT" secondAttribute="bottom" id="s3N-ru-joT"/>
@@ -354,11 +354,13 @@
                     <tabBarItem key="tabBarItem" title="Item" id="S8b-iX-93O"/>
                     <connections>
                         <outlet property="bottomTextField" destination="pqr-uq-7gB" id="Cuz-wL-nos"/>
+                        <outlet property="bottomTextVerticalConstraint" destination="isX-hy-l8z" id="ViI-Jq-xa3"/>
                         <outlet property="cameraButton" destination="usq-Xv-8o0" id="60S-YZ-Wkz"/>
                         <outlet property="cancelButton" destination="gvl-o0-VvN" id="wYc-zT-zEb"/>
                         <outlet property="picView" destination="uRd-o0-BaK" id="bci-vh-acr"/>
                         <outlet property="shareButton" destination="Z8Y-WN-4gF" id="Co2-5n-NGu"/>
                         <outlet property="topTextField" destination="5fw-k4-a3B" id="fbR-yb-WIc"/>
+                        <outlet property="topTextVerticalConstraint" destination="p87-Iu-VWd" id="A0X-a2-pew"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
