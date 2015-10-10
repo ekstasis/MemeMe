@@ -51,7 +51,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
 //    }
     
     var memeIndex : Int? // Used for editing meme rather than creating one
-    var meme : Meme!
+// var meme : Meme!
     var memedImage : UIImage!
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
@@ -80,13 +80,20 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
+        
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
+//        navigationController?.navigationBarHidden = true
+        
         subscribeToKeyboardNotification()
+        
         if let index = memeIndex {
-            meme = appDelegate.allMemes[index]  // otherwise it's a new meme
+            let meme = appDelegate.allMemes[index]  // otherwise it's a new meme
+            picView.image? = meme.image
+            topTextField.text = meme.topText
+            bottomTextField.text = meme.bottomText
         }
-        navigationController?.navigationBarHidden = true
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -106,6 +113,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     @IBAction func pickImageFromCamera(sender: UIBarButtonItem) {
+        
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
         pickerController.sourceType = .Camera
@@ -113,14 +121,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     func positionTextFields() {
-//        topTextField.removeConstraint(topTextVerticalConstraint)
-//        let topTextTopOfImageConstraint = NSLayoutConstraint(item: topTextField, attribute: .Top, relatedBy: .Equal, toItem: picView.image!, attribute: .Equal, multiplier: 1, constant: -10)
-//        let topTextTopOfImageConstraint = NSLayoutConstraint(item: picView.image!, attribute: .Top, relatedBy: .Equal, toItem: topTextField, attribute: .Top, multiplier: 1, constant: -10)
-//        topTextField.addConstraint(topTextTopOfImageConstraint)
-//        let newTopTextY = imageBounds!.origin.y + 10
-//        let newBottomTextY = imageBounds!.origin.y + imageBounds!.size.height - topTextField.bounds.height - 10
-//        topTextField.frame.origin.y = newTopTextY
-//        bottomTextField.frame.origin.y = newBottomTextY
         
         topTextVerticalConstraint.constant = 0
         bottomTextVerticalConstraint.constant = 0
@@ -133,6 +133,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
         topTextField.hidden = true
         bottomTextField.hidden = true
         coordinator.animateAlongsideTransition(nil, completion: { context in
@@ -148,7 +149,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         activityVC.completionWithItemsHandler = { (activity, success, items, error) in
             if success {
                 self.saveMeme()
-                self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
         
@@ -165,7 +165,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func saveMeme() {
         let newMeme = Meme(topText: topTextField.text!, bottomText: bottomTextField.text!, image: picView.image!, memedImage: memedImage)
         if let index = memeIndex {
-            appDelegate.allMemes[index] = newMeme     // editing meme
+            appDelegate.allMemes[index] = newMeme     // resave edited meme
         } else {
             appDelegate.allMemes.append(newMeme)      // new meme
         }
@@ -181,7 +181,11 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         print("picview bounds: \(picView.bounds)")
         
         // take snapshot of image -- returns a UIView, not an image
-        let renderedImageView = picView.resizableSnapshotViewFromRect(imageBounds!, afterScreenUpdates: true, withCapInsets:  UIEdgeInsetsZero)
+        let imageY = imageBounds!.origin.y + picView.frame.origin.y
+        let imageX = imageBounds!.origin.x
+        let imageOrigin = CGPoint(x: imageX, y: imageY)
+        let imageRect = CGRect(origin: imageOrigin, size: imageBounds!.size)
+        let renderedImageView = view.resizableSnapshotViewFromRect(imageRect, afterScreenUpdates: true, withCapInsets:  UIEdgeInsetsZero)
         
         // convert snapshot UIView to UIImage
         UIGraphicsBeginImageContext(imageBounds!.size)
@@ -199,6 +203,8 @@ UINavigationControllerDelegate, UITextFieldDelegate {
 //        
 //        shouldEnableTopButtons(false)
 //       navigationController?.popViewControllerAnimated(true)
+        
+        // Returns to Sent Memes as per Rubrick unless editing previous meme in which case return to detail view
         dismissViewControllerAnimated(true, completion: nil)
     }
     

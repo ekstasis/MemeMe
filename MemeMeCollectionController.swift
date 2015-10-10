@@ -19,12 +19,7 @@ class MemeMeCollectionController: UICollectionViewController {
     override func viewWillAppear(animated: Bool) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "editNewMeme")
         sentMemes = appDelegate.allMemes
-        navigationController?.navigationBarHidden = false
-    }
-    
-    @IBAction func clearButton(sender: UIBarButtonItem) {
-//        appDelegate.clearTable()
-//        refreshTable()
+//        navigationController?.navigationBarHidden = false
     }
     
     func refreshTable() {
@@ -35,7 +30,7 @@ class MemeMeCollectionController: UICollectionViewController {
     
     func editNewMeme() {
         let editVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor")
-        navigationController?.pushViewController(editVC!, animated: true)
+        presentViewController(editVC!, animated: true, completion: nil)
     }
 
     // MARK: - Table view data source

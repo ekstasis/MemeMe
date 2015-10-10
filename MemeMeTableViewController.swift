@@ -19,7 +19,7 @@ class MemeMeTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "editNewMeme")
         refreshTable()
-        navigationController?.navigationBarHidden = false
+        // navigationController?.navigationBarHidden = false
         tableView.allowsMultipleSelection = false
     }
     

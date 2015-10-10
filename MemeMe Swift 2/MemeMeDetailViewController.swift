@@ -14,10 +14,10 @@ class MemeMeDetailViewController: UIViewController {
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
-//    var memeImage : UIImage!
     var memeIndex : Int!
     
     override func viewWillAppear(animated: Bool) {
+        
         super.viewWillAppear(animated)
         
         let meme = appDelegate.allMemes[memeIndex]
@@ -31,11 +31,13 @@ class MemeMeDetailViewController: UIViewController {
     }
     
     override func viewWillDisappear(animated: Bool) {
+        
         super.viewWillDisappear(animated)
         tabBarController?.tabBar.hidden = false
     }
     
     func showEditor() {
+        
         let editorVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor") as! MemeEditorVC
         editorVC.memeIndex = memeIndex
         presentViewController(editorVC, animated: true, completion: nil)
