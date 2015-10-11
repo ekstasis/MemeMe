@@ -5,7 +5,6 @@
 //  Created by Ekstasis on 9/29/15.
 //  Copyright © 2015 Baxter Heavy Industries. All rights reserved.
 //
-
 import UIKit
 
 class MemeTableViewCell: UITableViewCell {

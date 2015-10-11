@@ -17,7 +17,7 @@ class MemeMeTableViewController: UITableViewController {
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     override func viewWillAppear(animated: Bool) {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "editNewMeme")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "newMeme")
         refreshTable()
         // navigationController?.navigationBarHidden = false
         tableView.allowsMultipleSelection = false
@@ -26,12 +26,12 @@ class MemeMeTableViewController: UITableViewController {
     func refreshTable() {
         sentMemes = appDelegate.allMemes
         
-        dispatch_async(dispatch_get_main_queue(), { self.tableView.reloadData() } )
+        tableView.reloadData()
+//        dispatch_async(dispatch_get_main_queue(), { self.tableView.reloadData() } )
     }
     
-    func editNewMeme() {
+    func newMeme() {
         let editVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor")
-//        navigationController?.pushViewController(editVC!, animated: true)
         presentViewController(editVC!, animated: true, completion: nil)
     }
 
@@ -42,13 +42,15 @@ class MemeMeTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SentMemeTableCell", forIndexPath: indexPath) as! MemeTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("SentMemeTableCell", forIndexPath: indexPath)
+//            as! MemeTableViewCell
         
         print("dequeued cell")
 
         let meme = sentMemes[indexPath.row]
-        let cellImageView = cell.contentView.subviews[0] as! UIImageView
-        cellImageView.image = meme.memedImage
+        cell.imageView?.image = meme.memedImage
+//        let cellImageView = cell.contentView.subviews[0] as! UIImageView
+//        cellImageView.image = meme.memedImage
         cell.textLabel?.text = meme.topText
 //        cell.detailTextLabel?.text = meme.topText
         
