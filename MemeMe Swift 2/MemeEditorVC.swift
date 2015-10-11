@@ -11,7 +11,7 @@ import UIKit
 // Extension that gives bounds of the image that was picked from album/camera
 extension UIImageView {
 
-    func displayedImageBounds() -> CGRect {
+    func displayedImageFrame() -> CGRect {
         
         let boundsWidth = bounds.size.width
         let boundsHeight = bounds.size.height
@@ -133,7 +133,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         
         picView.setNeedsLayout()
         picView.layoutIfNeeded()
-        let imageBounds = picView.displayedImageBounds()
+        let imageBounds = picView.displayedImageFrame()
         
         topTextVerticalConstraint.constant = 0
         bottomTextVerticalConstraint.constant = 0
@@ -197,7 +197,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func renderMeme() -> UIImage {
         
         // Get bounds of album image only
-        let imageBounds = picView.displayedImageBounds()
+        let imageBounds = picView.displayedImageFrame()
        
         print("image.size:  \(picView.image!.size)")
         print("imagebounds: \(imageBounds)")
@@ -217,6 +217,14 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         UIGraphicsEndImageContext()
         print("memedimagesize: \(memedImage.size)")
         return memedImage
+        
+//        let picViewOriginalBounds = picView.bounds
+//        UIGraphicsBeginImageContext(imageBounds.size)
+//        picView.bounds = imageBounds
+//        let memedImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        picView.bounds = picViewOriginalBounds
+//        return memedImage
     }
     
     @IBAction func userCanceledEdit(sender: UIBarButtonItem) {

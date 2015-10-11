@@ -40,14 +40,15 @@ class MemeMeTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sentMemes.count
     }
-
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("SentMemeTableCell", forIndexPath: indexPath)
-//            as! MemeTableViewCell
+            as! MemeTableViewCell
         
         print("dequeued cell")
 
         let meme = sentMemes[indexPath.row]
+        cell.imageView?.bounds.size = CGSize(width: 100, height: 100)
         cell.imageView?.image = meme.memedImage
 //        let cellImageView = cell.contentView.subviews[0] as! UIImageView
 //        cellImageView.image = meme.memedImage
