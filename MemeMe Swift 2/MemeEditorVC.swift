@@ -57,7 +57,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(picView.bounds)    //////
         topTextField.delegate = self
         bottomTextField.delegate = self
         
@@ -72,15 +71,12 @@ UINavigationControllerDelegate, UITextFieldDelegate {
             topTextField.enabled = false
             bottomTextField.enabled = false
         }
-        print("viewdidload")
-        print(picView.bounds)
     }
     
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
         
-        print(picView.bounds) /////////
         
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
         
@@ -89,13 +85,12 @@ UINavigationControllerDelegate, UITextFieldDelegate {
 //        navigationController?.navigationBarHidden = true
         
         subscribeToKeyboardNotification()
-               print(picView.bounds)
         if memeIndex != nil {
             positionTextFields()
+            cancelButton.enabled = true
+        } else {
+                cancelButton.enabled = false
         }
-        
-       print("viewWillAppear")
-                print(picView.bounds)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -108,12 +103,10 @@ UINavigationControllerDelegate, UITextFieldDelegate {
 //    }
 //    
     @IBAction func pickImageFromAlbum(sender: UIBarButtonItem) {
-        print("pickImageIBin", picView.bounds)
         let pickerController = UIImagePickerController()
         pickerController.delegate = self
         pickerController.sourceType = .PhotoLibrary
         presentViewController(pickerController, animated: true, completion: nil)
-        print("pickImageIBout", picView.bounds)
     }
     
     @IBAction func pickImageFromCamera(sender: UIBarButtonItem) {
@@ -130,8 +123,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     func positionTextFields() {
-        print(picView.bounds)
-        print("positionTextFields", picView.frame)
         textFieldsWillHide(true)
         
         picView.setNeedsLayout()
@@ -144,16 +135,13 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         
         topTextVerticalConstraint.constant = imageBounds.origin.y
         
-//        print(topTextVerticalConstraint.constant)
         
         bottomTextVerticalConstraint.constant = -(picView.bounds.height - imageBounds.height) / 2
         
-        print(bottomTextVerticalConstraint.constant)
         textFieldsWillHide(false)
 //        picView.updateConstraints()
 //        topTextField.updateConstraints()
 //        view.updateConstraints()
-        print(picView.frame)
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -170,6 +158,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         
         activityVC.completionWithItemsHandler = { (activity, success, items, error) in
             if success {
+                self.cancelButton.enabled = true
                 self.saveMeme()
             }
         }
@@ -199,10 +188,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         // Get bounds of album image only
         let imageBounds = picView.displayedImageFrame()
        
-        print("image.size:  \(picView.image!.size)")
-        print("imagebounds: \(imageBounds)")
-        print("picview bounds: \(picView.bounds)")
-        
         // take snapshot of image -- returns a UIView, not an image
         let imageY = imageBounds.origin.y + picView.frame.origin.y
         let imageX = imageBounds.origin.x
@@ -215,7 +200,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         renderedImageView.drawViewHierarchyInRect(renderedImageView.bounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        print("memedimagesize: \(memedImage.size)")
         return memedImage
         
 //        let picViewOriginalBounds = picView.bounds
@@ -301,8 +285,8 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         topTextField.textAlignment = .Center
         bottomTextField.textAlignment = .Center
         
-        topTextField.attributedPlaceholder = NSAttributedString(string: "Top", attributes: memeMeTextAttributes)
-        bottomTextField.attributedPlaceholder = NSAttributedString(string: "Bottom", attributes: memeMeTextAttributes)
+        topTextField.attributedPlaceholder = NSAttributedString(string: "Pick a Photo", attributes: memeMeTextAttributes)
+        bottomTextField.attributedPlaceholder = NSAttributedString(string: "Share Meme to Save", attributes: memeMeTextAttributes)
     }
     
     
@@ -318,7 +302,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         
-        print(picView.bounds)
         let pickedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
         picView.image = pickedImage
         dismissViewControllerAnimated(true, completion: nil)
@@ -327,7 +310,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         shareButton.enabled = true
         topTextField.enabled = true
         bottomTextField.enabled = true
-        print("end of image picker", picView.bounds)
     }
     
     // Text Field Delegate Functions
