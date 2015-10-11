@@ -9,7 +9,7 @@ import UIKit
 
 class MemeTableViewCell: UITableViewCell {
 
-//    @IBOutlet weak var memeImage: UIImageView!
+    @IBOutlet weak var cellImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,11 +22,8 @@ class MemeTableViewCell: UITableViewCell {
 //    }
     
     override func layoutSubviews() {
-        print(imageView?.image?.leftCapWidth)
-        print(imageView?.image?.topCapHeight)
-        imageView?.bounds = CGRect(x: 0, y: 0, width: 100, height: 100)
-        imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-        imageView?.backgroundColor = UIColor.purpleColor()
+        contentView.frame.size.width = bounds.size.width
+        contentView.frame.origin.x = 0
     }
 
 }

@@ -10,8 +10,6 @@ import UIKit
 
 class MemeMeTableViewController: UITableViewController {
 
-    @IBOutlet weak var cellImage: UIImageView!
-    
     var sentMemes : [Meme]!
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -48,12 +46,8 @@ class MemeMeTableViewController: UITableViewController {
         print("dequeued cell")
 
         let meme = sentMemes[indexPath.row]
-        cell.imageView?.bounds.size = CGSize(width: 100, height: 100)
-        cell.imageView?.image = meme.memedImage
-//        let cellImageView = cell.contentView.subviews[0] as! UIImageView
-//        cellImageView.image = meme.memedImage
-        cell.textLabel?.text = meme.topText
-//        cell.detailTextLabel?.text = meme.topText
+        cell.cellImageView?.image = meme.memedImage
+//        cell.textLabel?.text = meme.topText
         
         return cell
     }
@@ -71,55 +65,10 @@ class MemeMeTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
         if editingStyle == UITableViewCellEditingStyle.Delete {
             appDelegate.allMemes.removeAtIndex(indexPath.row)
             refreshTable()
         }
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
