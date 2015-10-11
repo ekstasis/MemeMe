@@ -68,6 +68,9 @@ UINavigationControllerDelegate, UITextFieldDelegate {
             picView.image = meme.image
             topTextField.text = meme.topText
             bottomTextField.text = meme.bottomText
+         } else {
+            topTextField.enabled = false
+            bottomTextField.enabled = false
         }
         print("viewdidload")
         print(picView.bounds)
@@ -91,12 +94,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
             positionTextFields()
         }
         
-//        topTextField.setNeedsDisplay()
-//        picView.setNeedsDisplay()
-//        view.setNeedsDisplay()
-//       picView.layer.setNeedsDisplay()
-//       topTextField.layer.setNeedsDisplay()
-//       view.layer.setNeedsDisplay()
        print("viewWillAppear")
                 print(picView.bounds)
     }
@@ -328,6 +325,8 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         positionTextFields()
         
         shareButton.enabled = true
+        topTextField.enabled = true
+        bottomTextField.enabled = true
         print("end of image picker", picView.bounds)
     }
     
