@@ -286,6 +286,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="jer-CB-yVh" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="0e0-YF-2gN"/>
+                            <constraint firstItem="uRd-o0-BaK" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="44" id="2Lw-BI-ewD"/>
                             <constraint firstAttribute="centerX" secondItem="2s6-1X-CNT" secondAttribute="centerX" id="56t-bq-b0d"/>
                             <constraint firstAttribute="centerX" secondItem="uRd-o0-BaK" secondAttribute="centerX" id="6tS-FO-Mju"/>
                             <constraint firstItem="uRd-o0-BaK" firstAttribute="top" secondItem="5fw-k4-a3B" secondAttribute="bottom" constant="-20" id="8nY-4s-xy7"/>
@@ -306,6 +307,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="2s6-1X-CNT" secondAttribute="trailing" constant="-16" id="P8j-A9-i1O"/>
                             <constraint firstItem="uRd-o0-BaK" firstAttribute="top" secondItem="jer-CB-yVh" secondAttribute="bottom" id="SHM-AN-ncC"/>
                             <constraint firstItem="uRd-o0-BaK" firstAttribute="centerX" secondItem="2s6-1X-CNT" secondAttribute="centerX" id="TKj-3X-mX6"/>
+                            <constraint firstItem="uRd-o0-BaK" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="44" id="U8n-Jw-1sB"/>
                             <constraint firstItem="jer-CB-yVh" firstAttribute="top" secondItem="uRd-o0-BaK" secondAttribute="bottom" constant="20" id="VEK-Bf-Euv"/>
                             <constraint firstItem="pqr-uq-7gB" firstAttribute="width" secondItem="uRd-o0-BaK" secondAttribute="width" id="VGN-Jf-JdY"/>
                             <constraint firstItem="uRd-o0-BaK" firstAttribute="top" secondItem="jer-CB-yVh" secondAttribute="bottom" id="X76-KL-osH"/>
@@ -333,12 +335,14 @@
                                 <exclude reference="9Yi-nF-tIN"/>
                                 <exclude reference="VEK-Bf-Euv"/>
                                 <exclude reference="yBp-2b-ebY"/>
+                                <exclude reference="2Lw-BI-ewD"/>
                                 <exclude reference="8nY-4s-xy7"/>
                                 <exclude reference="9BY-kJ-QuJ"/>
                                 <exclude reference="A0y-Ce-R2v"/>
                                 <exclude reference="F0T-Lw-qJw"/>
                                 <exclude reference="G7k-Ky-DjC"/>
                                 <exclude reference="KNr-kB-z8f"/>
+                                <exclude reference="Nx2-HK-Txn"/>
                                 <exclude reference="SHM-AN-ncC"/>
                                 <exclude reference="TKj-3X-mX6"/>
                                 <exclude reference="X76-KL-osH"/>

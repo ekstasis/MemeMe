@@ -127,9 +127,15 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         presentViewController(pickerController, animated: true, completion: nil)
     }
     
+    func textFieldsWillHide(trueOrNot: Bool) {
+        topTextField.hidden = trueOrNot
+        bottomTextField.hidden = trueOrNot
+    }
+    
     func positionTextFields() {
         print(picView.bounds)
         print("positionTextFields", picView.frame)
+        textFieldsWillHide(true)
         
         picView.setNeedsLayout()
         picView.layoutIfNeeded()
@@ -146,8 +152,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         bottomTextVerticalConstraint.constant = -(picView.bounds.height - imageBounds.height) / 2
         
         print(bottomTextVerticalConstraint.constant)
-        topTextField.hidden = false
-        bottomTextField.hidden = false
+        textFieldsWillHide(false)
 //        picView.updateConstraints()
 //        topTextField.updateConstraints()
 //        view.updateConstraints()
@@ -156,8 +161,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
-        topTextField.hidden = true
-        bottomTextField.hidden = true
         coordinator.animateAlongsideTransition(nil, completion: { context in
             self.positionTextFields() } )
     }
@@ -242,6 +245,8 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func subscribeToKeyboardNotification() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidHide:", name: UIKeyboardDidHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidShow:", name: UIKeyboardDidShowNotification, object: nil)
     }
     
     func unSubscribeToKeyboardNotification() {
@@ -252,8 +257,17 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func keyboardWillShow(notification:  NSNotification) {
         if bottomTextIsBeingEdited {
             
+            textFieldsWillHide(true)
             view.frame.origin.y = 0
             view.frame.origin.y -= getKeyboardHeight(notification)
+            
+        }
+    }
+    
+    func keyboardDidShow(notification: NSNotification) {
+        if bottomTextIsBeingEdited {
+//            bottomTextVerticalConstraint.constant = 0
+            positionTextFields()
         }
     }
     
@@ -261,6 +275,14 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         if bottomTextIsBeingEdited {
             view.frame.origin.y = 0
         }
+    }
+    
+    func keyboardDidHide(notification: NSNotification) {
+//        let imageFrame = picView.displayedImageFrame()
+//        topTextVerticalConstraint.constant = imageFrame.origin.y
+//        bottomTextVerticalConstraint.constant = -(picView.bounds.height - imageFrame.height) / 2
+            positionTextFields()
+
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
