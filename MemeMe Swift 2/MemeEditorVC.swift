@@ -19,12 +19,14 @@ extension UIImageView {
         let imageSize = image!.size
         let imageRatio = imageSize.width / imageSize.height
         let viewRatio = boundsWidth / boundsHeight
+        
         // image is portrait
         if ( viewRatio > imageRatio ) {
             let scale = boundsHeight / imageSize.height
             let width = scale * imageSize.width
             let topLeftX = (boundsWidth - width) * 0.5
             return CGRectMake(topLeftX, 0, width, boundsHeight)
+            
         } else {
             //image is landscape
             let scale = boundsWidth / imageSize.width
@@ -36,8 +38,7 @@ extension UIImageView {
 }
 
 // CLASS
-class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate,
-UINavigationControllerDelegate, UITextFieldDelegate {
+class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     @IBOutlet weak var picView: UIImageView!
@@ -46,16 +47,13 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     @IBOutlet weak var shareButton: UIBarButtonItem!
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     
-    // To faclitate positioning text fields within image bounds
+    // To faclitate keeping text fields within image bounds
     @IBOutlet weak var topTextVerticalConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomTextVerticalConstraint: NSLayoutConstraint!
-    
-    // Need to constrain to image when it's set instead of imageView
     @IBOutlet weak var topTextToViewWidth: NSLayoutConstraint!
     @IBOutlet weak var bottomTextToViewWidth: NSLayoutConstraint!
     
-    
-    var memeIndex : Int? // nil if not editing existing meme
+    var memeIndex : Int?       // nil if not editing existing meme
     var memedImage : UIImage!
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -65,6 +63,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         topTextField.delegate = self
         bottomTextField.delegate = self
         
@@ -89,23 +88,42 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
         shareButton.enabled = (picView.image != nil)
         
-        subscribeToKeyboardNotification()
-        
-            cancelButton.title = "Cancel"
+        cancelButton.title = "Cancel"
         
         if picView.image != nil {
             positionTextFields()
             cancelButton.enabled = true
         } else {
             cancelButton.enabled = false
-        
         }
+        
+        subscribeToKeyboardNotification()
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
         unSubscribeToKeyboardNotification()
+    }
+    
+    func setMemeTextAttributes() {
+        
+        let memeMeTextAttributes : [String : AnyObject] =
+        [
+            NSStrokeColorAttributeName:      UIColor.blackColor(),
+            NSForegroundColorAttributeName:  UIColor.whiteColor(),
+            NSFontAttributeName:             UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+            NSStrokeWidthAttributeName:      -5.0
+        ]
+        
+        topTextField.defaultTextAttributes = memeMeTextAttributes
+        bottomTextField.defaultTextAttributes = memeMeTextAttributes
+        
+        topTextField.textAlignment = .Center
+        bottomTextField.textAlignment = .Center
+        
+        topTextField.attributedPlaceholder = NSAttributedString(string: "Pick a Photo", attributes: memeMeTextAttributes)
+        bottomTextField.attributedPlaceholder = NSAttributedString(string: "Share Meme to Save", attributes: memeMeTextAttributes)
     }
     
     @IBAction func pickImageFromAlbum(sender: UIBarButtonItem) {
@@ -122,33 +140,9 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         presentViewController(pickerController, animated: true, completion: nil)
     }
     
-    func positionTextFields() {
-        
-        // To deal with incorrect image bounds being reported
-        picView.setNeedsLayout()
-        picView.layoutIfNeeded()
-        
-        let imageFrame = picView.displayedImageFrame()
-        
-        let imageViewWidth = picView.bounds.size.width
-        let imageWidth = picView.displayedImageFrame().size.width
-        
-        // Bottom text field is first item in constraint unlike top text field
-        topTextToViewWidth.constant = imageViewWidth - imageWidth
-        bottomTextToViewWidth.constant = -topTextToViewWidth.constant
-        
-        topTextVerticalConstraint.constant = imageFrame.origin.y + 10
-        bottomTextVerticalConstraint.constant = -(picView.bounds.height - imageFrame.height) / 2
-        bottomTextVerticalConstraint.constant -= 10
-        
-    }
-    
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        
-        if picView.image != nil {   // Otherwise positionTextFields calculates size of nil image
-            coordinator.animateAlongsideTransition(nil, completion: { context in
-                self.positionTextFields() } )
-        }
+    @IBAction func userCanceledEdit(sender: UIBarButtonItem) {
+        // Returns to Sent Memes as per Rubrick unless editing previous meme in which case return to detail view
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func showActivity(sender: UIBarButtonItem) {
@@ -164,7 +158,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
                 self.cancelButton.title = "Done"
             }
         }
-        
         presentViewController(activityVC, animated: true, completion: nil)
         
         // TODO:  Make this work for iPad
@@ -195,24 +188,42 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         let imageRect = CGRect(origin: imageOrigin, size: imageFrame.size)
         let renderedImageView = view.resizableSnapshotViewFromRect(imageRect, afterScreenUpdates: true, withCapInsets:  UIEdgeInsetsZero)
         
-        // convert snapshot UIView to UIImage
+        // convert snapshot from UIView to UIImage
         UIGraphicsBeginImageContext(imageFrame.size)
         renderedImageView.drawViewHierarchyInRect(renderedImageView.bounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
+        
         return memedImage
     }
     
-    @IBAction func userCanceledEdit(sender: UIBarButtonItem) {
-        //        picView.image = nil
-        //        topTextField.text = nil
-        //        bottomTextField.text = nil
-        //
-        //        shouldEnableTopButtons(false)
-        //       navigationController?.popViewControllerAnimated(true)
+    func positionTextFields() {
         
-        // Returns to Sent Memes as per Rubrick unless editing previous meme in which case return to detail view
-        dismissViewControllerAnimated(true, completion: nil)
+        // To deal with incorrect image bounds being reported
+        picView.setNeedsLayout()
+        picView.layoutIfNeeded()
+        
+        let imageFrame = picView.displayedImageFrame()
+        let imageWidth = imageFrame.size.width
+        let imageViewWidth = picView.bounds.size.width
+        
+        topTextToViewWidth.constant = imageViewWidth - imageWidth
+        // Bottom text field is first item in constraint unlike top text field
+        bottomTextToViewWidth.constant = -topTextToViewWidth.constant
+        
+        topTextVerticalConstraint.constant = imageFrame.origin.y + 5
+        bottomTextVerticalConstraint.constant = -(picView.bounds.height - imageFrame.height) / 2
+        bottomTextVerticalConstraint.constant -= 5
+        
+    }
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
+        // Otherwise positionTextFields tries to deal with nil image
+        if picView.image != nil {
+            coordinator.animateAlongsideTransition(nil, completion: { context in
+                self.positionTextFields() } )
+        }
     }
     
     func subscribeToKeyboardNotification() {
@@ -228,7 +239,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     func keyboardWillShow(notification:  NSNotification) {
-        
         if bottomTextIsBeingEdited {
             view.frame.origin.y = 0
             view.frame.origin.y -= getKeyboardHeight(notification)
@@ -257,25 +267,6 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         return keyboardFrame.CGRectValue().height
     }
     
-    func setMemeTextAttributes() {
-        
-        let memeMeTextAttributes : [String : AnyObject]  = [
-            NSStrokeColorAttributeName : UIColor.blackColor(),
-            NSForegroundColorAttributeName : UIColor.whiteColor(),
-            NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSStrokeWidthAttributeName: -5.0
-        ]
-        
-        topTextField.defaultTextAttributes = memeMeTextAttributes
-        bottomTextField.defaultTextAttributes = memeMeTextAttributes
-        
-        topTextField.textAlignment = .Center
-        bottomTextField.textAlignment = .Center
-        
-        topTextField.attributedPlaceholder = NSAttributedString(string: "Pick a Photo", attributes: memeMeTextAttributes)
-        bottomTextField.attributedPlaceholder = NSAttributedString(string: "Share Meme to Save", attributes: memeMeTextAttributes)
-    }
-    
     /*
     *   Delegate Functions
     */
@@ -291,7 +282,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         let pickedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
         picView.image = pickedImage
         dismissViewControllerAnimated(true, completion: nil)
-       
+        
         positionTextFields()
         
         shareButton.enabled = true

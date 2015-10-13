@@ -14,19 +14,10 @@ class MemeMeTableViewController: UITableViewController {
     
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-      
-    }
-    
     override func viewWillAppear(animated: Bool) {
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "newMeme")
-        
-        refreshTable()
-        
         tableView.allowsMultipleSelection = false
+        refreshTable()
     }
     
     func refreshTable() {
@@ -35,11 +26,10 @@ class MemeMeTableViewController: UITableViewController {
             let editVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor")
             presentViewController(editVC!, animated: true, completion: nil)
         }
-        
         tableView.reloadData()
-//        dispatch_async(dispatch_get_main_queue(), { self.tableView.reloadData() } )
     }
     
+    // Triggered by rightBarButtonItem
     func newMeme() {
         let editVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor")
         presentViewController(editVC!, animated: true, completion: nil)
@@ -52,26 +42,27 @@ class MemeMeTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let meme = sentMemes[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("SentMemeTableCell", forIndexPath: indexPath)
             as! MemeTableViewCell
-        
-        print("dequeued cell")
-
-        let meme = sentMemes[indexPath.row]
         cell.cellImageView?.image = meme.memedImage
         cell.topText.text = meme.topText
         cell.bottomText.text = meme.bottomText
+        
         return cell
     }
     
     // Table view delegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
         let detailVC = storyboard?.instantiateViewControllerWithIdentifier("DetailView") as! MemeMeDetailViewController
         detailVC.memeIndex = indexPath.row
         navigationController?.pushViewController(detailVC, animated: true)
     }
     
+    // Enables deleting
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
     }

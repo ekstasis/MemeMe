@@ -76,19 +76,19 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kJv-aN-d2S">
                                             <rect key="frame" x="0.0" y="2" width="95" height="95"/>
-                                            <color key="backgroundColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" red="0.1284756846" green="0.1912275339" blue="0.46669823230000002" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="kJv-aN-d2S" secondAttribute="height" multiplier="1:1" id="Uo0-Iw-81D"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="topText" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="v2g-Ir-s4X">
-                                            <rect key="frame" x="95" y="19" width="497" height="21"/>
+                                            <rect key="frame" x="103" y="19" width="489" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="bottomText" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="wpJ-hg-RKP">
-                                            <rect key="frame" x="95" y="60" width="497" height="21"/>
+                                            <rect key="frame" x="103" y="60" width="489" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -102,17 +102,17 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" red="1" green="0.97366461859999998" blue="0.35875482240000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="bottomMargin" secondItem="wpJ-hg-RKP" secondAttribute="bottom" id="3iB-ew-fs7"/>
                                         <constraint firstItem="v2g-Ir-s4X" firstAttribute="top" secondItem="yu3-oP-9iy" secondAttribute="topMargin" id="4Ja-81-nuq"/>
                                         <constraint firstAttribute="bottom" secondItem="kJv-aN-d2S" secondAttribute="bottom" constant="2" id="8bF-oS-oXz"/>
                                         <constraint firstItem="kJv-aN-d2S" firstAttribute="leading" secondItem="yu3-oP-9iy" secondAttribute="leading" id="Ake-NB-ZNg"/>
-                                        <constraint firstItem="v2g-Ir-s4X" firstAttribute="leading" secondItem="kJv-aN-d2S" secondAttribute="trailing" id="BHE-Vf-XdH"/>
+                                        <constraint firstItem="v2g-Ir-s4X" firstAttribute="leading" secondItem="kJv-aN-d2S" secondAttribute="trailing" constant="8" id="BHE-Vf-XdH"/>
                                         <constraint firstItem="wpJ-hg-RKP" firstAttribute="top" secondItem="cGa-xq-7gm" secondAttribute="bottom" id="HaB-O0-3Ul"/>
                                         <constraint firstItem="v2g-Ir-s4X" firstAttribute="leading" secondItem="cGa-xq-7gm" secondAttribute="trailing" constant="-288" id="IGg-vs-cFF"/>
-                                        <constraint firstItem="cGa-xq-7gm" firstAttribute="centerX" secondItem="v2g-Ir-s4X" secondAttribute="centerX" id="csm-FG-1ur"/>
-                                        <constraint firstItem="wpJ-hg-RKP" firstAttribute="leading" secondItem="kJv-aN-d2S" secondAttribute="trailing" id="dzT-Sf-iPp"/>
+                                        <constraint firstItem="cGa-xq-7gm" firstAttribute="centerX" secondItem="v2g-Ir-s4X" secondAttribute="centerX" constant="-4" id="csm-FG-1ur"/>
+                                        <constraint firstItem="wpJ-hg-RKP" firstAttribute="leading" secondItem="kJv-aN-d2S" secondAttribute="trailing" constant="8" id="dzT-Sf-iPp"/>
                                         <constraint firstItem="kJv-aN-d2S" firstAttribute="top" secondItem="yu3-oP-9iy" secondAttribute="top" constant="2" id="e18-pT-5XP"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="v2g-Ir-s4X" secondAttribute="trailing" id="l7F-bU-kzt"/>
                                         <constraint firstItem="v2g-Ir-s4X" firstAttribute="bottom" secondItem="cGa-xq-7gm" secondAttribute="bottom" id="lTe-tq-yzF"/>
@@ -131,7 +131,7 @@
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.58039218189999997" green="0.90980398650000005" blue="0.58431375029999999" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="bottomText" destination="wpJ-hg-RKP" id="ywV-1h-14O"/>
                                     <outlet property="cellImageView" destination="kJv-aN-d2S" id="5Rv-xv-oWF"/>

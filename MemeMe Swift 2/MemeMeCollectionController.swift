@@ -19,7 +19,6 @@ class MemeMeCollectionController: UICollectionViewController {
     override func viewWillAppear(animated: Bool) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "newMeme")
         refreshCollection()
-//        navigationController?.navigationBarHidden = false
     }
     
     func refreshCollection() {
@@ -32,22 +31,17 @@ class MemeMeCollectionController: UICollectionViewController {
         presentViewController(editVC!, animated: true, completion: nil)
     }
 
-    // MARK: - Collection view data source
+    // Collection view data source
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sentMemes.count
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Collection Cell", forIndexPath: indexPath) as! MemeMeCollectionViewCell
         
-        print("dequeued cell")
-
         let meme = sentMemes[indexPath.row]
-        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Collection Cell", forIndexPath: indexPath) as! MemeMeCollectionViewCell
         cell.collectionCellImage.image = meme.memedImage
-//        cell.textLabel?.text = meme.topText
-//        cell.detailTextLabel?.text = meme.topText
         
         return cell
     }
@@ -55,9 +49,7 @@ class MemeMeCollectionController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         let detailVC = storyboard?.instantiateViewControllerWithIdentifier("DetailView") as! MemeMeDetailViewController
-        
         detailVC.memeIndex = indexPath.row
-        
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }

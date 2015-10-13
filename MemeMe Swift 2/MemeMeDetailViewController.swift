@@ -17,27 +17,23 @@ class MemeMeDetailViewController: UIViewController {
     var memeIndex : Int!
     
     override func viewWillAppear(animated: Bool) {
-        
         super.viewWillAppear(animated)
         
         let meme = appDelegate.allMemes[memeIndex]
         memeImageView.image = meme.memedImage
         
         let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "showEditor")
-        
         navigationItem.setRightBarButtonItem(editButton, animated: true)
-        
         tabBarController?.tabBar.hidden = true
     }
     
     override func viewWillDisappear(animated: Bool) {
-        
         super.viewWillDisappear(animated)
+        
         tabBarController?.tabBar.hidden = false
     }
     
     func showEditor() {
-        
         let editorVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor") as! MemeEditorVC
         editorVC.memeIndex = memeIndex
         presentViewController(editorVC, animated: true, completion: nil)

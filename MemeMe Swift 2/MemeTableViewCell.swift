@@ -14,7 +14,7 @@ class MemeTableViewCell: UITableViewCell {
     @IBOutlet weak var bottomText: UILabel!
     
     /*
-    * Fixes an issue where contentView was shifting after cell deletion
+    * Fixes an issue where contentView in next cell was shifting after cell deletion
     */
     override func layoutSubviews() {
         contentView.frame.size.width = bounds.size.width

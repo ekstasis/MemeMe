@@ -16,6 +16,9 @@ struct Meme {
     let memedImage : UIImage
 }
 
+/* 
+ * Converts Meme struct to codable class so that it can be saved to NSUserDefaults
+*/
 class SentMemeWrapper : NSObject, NSCoding {
     var topText : String
     var bottomText : String

@@ -18,10 +18,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func saveMemes() {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         let nsMutableArrayForMemes = NSMutableArray()
+        
+        // Convert Meme structs to classes to allow saving to NSUserDefaults
         for meme in allMemes {
             let memeClass = SentMemeWrapper(inMeme: meme)
             nsMutableArrayForMemes.addObject(memeClass)
         }
+        
         let memesArchiveData = NSKeyedArchiver.archivedDataWithRootObject(nsMutableArrayForMemes)
         userDefaults.setObject(memesArchiveData, forKey: "Sent Memes")
     }
@@ -31,11 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let userDefaults = NSUserDefaults.standardUserDefaults()
         
         /*
-        *  Save sent memes.  Tapdancing because Rubrick requires Meme struct, not class.
+        *     Load sent memes.  Tapdancing because Rubrick requires Meme struct, not class.
         *     Meme structs were converted to NSCoding classes and added to NSMutableArray.
         *     SentMemeWrapper class has method to output a Meme struct.
         */
-        
         if let memesData = userDefaults.objectForKey("Sent Memes") as? NSData {
             
             let memesNSArray = NSKeyedUnarchiver.unarchiveObjectWithData(memesData) as! NSMutableArray
@@ -45,7 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 allMemes.append(meme.convertToStruct())
             }
         }
-        
         return true
     }
     
