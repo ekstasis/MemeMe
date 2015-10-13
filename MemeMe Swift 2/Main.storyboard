@@ -324,7 +324,7 @@
                             <constraint firstAttribute="centerX" secondItem="2s6-1X-CNT" secondAttribute="centerX" id="56t-bq-b0d"/>
                             <constraint firstAttribute="centerX" secondItem="uRd-o0-BaK" secondAttribute="centerX" id="6tS-FO-Mju"/>
                             <constraint firstItem="uRd-o0-BaK" firstAttribute="top" secondItem="5fw-k4-a3B" secondAttribute="bottom" constant="-20" id="8nY-4s-xy7"/>
-                            <constraint firstItem="uRd-o0-BaK" firstAttribute="width" secondItem="5fw-k4-a3B" secondAttribute="width" id="92m-f2-f0a"/>
+                            <constraint firstItem="uRd-o0-BaK" firstAttribute="width" secondItem="5fw-k4-a3B" secondAttribute="width" identifier="topTextWidthPicView" id="92m-f2-f0a"/>
                             <constraint firstItem="uRd-o0-BaK" firstAttribute="top" secondItem="jer-CB-yVh" secondAttribute="top" constant="-20" id="9BY-kJ-QuJ"/>
                             <constraint firstItem="jer-CB-yVh" firstAttribute="top" secondItem="uRd-o0-BaK" secondAttribute="bottom" constant="20" id="9Yi-nF-tIN"/>
                             <constraint firstItem="uRd-o0-BaK" firstAttribute="bottom" secondItem="2s6-1X-CNT" secondAttribute="bottom" constant="-44" id="A0y-Ce-R2v"/>
@@ -400,12 +400,14 @@
                     <tabBarItem key="tabBarItem" title="Item" id="S8b-iX-93O"/>
                     <connections>
                         <outlet property="bottomTextField" destination="pqr-uq-7gB" id="Cuz-wL-nos"/>
+                        <outlet property="bottomTextToViewWidth" destination="VGN-Jf-JdY" id="2Pi-rN-fBU"/>
                         <outlet property="bottomTextVerticalConstraint" destination="isX-hy-l8z" id="ViI-Jq-xa3"/>
                         <outlet property="cameraButton" destination="usq-Xv-8o0" id="60S-YZ-Wkz"/>
                         <outlet property="cancelButton" destination="gvl-o0-VvN" id="wYc-zT-zEb"/>
                         <outlet property="picView" destination="uRd-o0-BaK" id="bci-vh-acr"/>
                         <outlet property="shareButton" destination="Z8Y-WN-4gF" id="Co2-5n-NGu"/>
                         <outlet property="topTextField" destination="5fw-k4-a3B" id="fbR-yb-WIc"/>
+                        <outlet property="topTextToViewWidth" destination="92m-f2-f0a" id="eAm-qg-xxt"/>
                         <outlet property="topTextVerticalConstraint" destination="p87-Iu-VWd" id="A0X-a2-pew"/>
                     </connections>
                 </viewController>

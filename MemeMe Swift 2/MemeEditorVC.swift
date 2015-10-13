@@ -50,6 +50,11 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     @IBOutlet weak var topTextVerticalConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomTextVerticalConstraint: NSLayoutConstraint!
     
+    // Need to constrain to image when it's set instead of imageView
+    @IBOutlet weak var topTextToViewWidth: NSLayoutConstraint!
+    @IBOutlet weak var bottomTextToViewWidth: NSLayoutConstraint!
+    
+    
     var memeIndex : Int? // nil if not editing existing meme
     var memedImage : UIImage!
     
@@ -117,34 +122,33 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         presentViewController(pickerController, animated: true, completion: nil)
     }
     
-//    func hideTextFields(trueOrNot: Bool) {
-//        topTextField.hidden = trueOrNot
-//        bottomTextField.hidden = trueOrNot
-//    }
-    
     func positionTextFields() {
         
-//        hideTextFields(true)
-        
-        // To fix to deal with incorrect image bounds being reported
+        // To deal with incorrect image bounds being reported
         picView.setNeedsLayout()
         picView.layoutIfNeeded()
         
         let imageFrame = picView.displayedImageFrame()
         
-        topTextVerticalConstraint.constant = 0
-        bottomTextVerticalConstraint.constant = 0
+        let imageViewWidth = picView.bounds.size.width
+        let imageWidth = picView.displayedImageFrame().size.width
         
-        topTextVerticalConstraint.constant = imageFrame.origin.y
+        // Bottom text field is first item in constraint unlike top text field
+        topTextToViewWidth.constant = imageViewWidth - imageWidth
+        bottomTextToViewWidth.constant = -topTextToViewWidth.constant
+        
+        topTextVerticalConstraint.constant = imageFrame.origin.y + 10
         bottomTextVerticalConstraint.constant = -(picView.bounds.height - imageFrame.height) / 2
+        bottomTextVerticalConstraint.constant -= 10
         
-//        hideTextFields(false)
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
-        coordinator.animateAlongsideTransition(nil, completion: { context in
-            self.positionTextFields() } )
+        if picView.image != nil {   // Otherwise positionTextFields calculates size of nil image
+            coordinator.animateAlongsideTransition(nil, completion: { context in
+                self.positionTextFields() } )
+        }
     }
     
     @IBAction func showActivity(sender: UIBarButtonItem) {
@@ -224,6 +228,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     }
     
     func keyboardWillShow(notification:  NSNotification) {
+        
         if bottomTextIsBeingEdited {
             view.frame.origin.y = 0
             view.frame.origin.y -= getKeyboardHeight(notification)
@@ -286,7 +291,7 @@ UINavigationControllerDelegate, UITextFieldDelegate {
         let pickedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
         picView.image = pickedImage
         dismissViewControllerAnimated(true, completion: nil)
-        
+       
         positionTextFields()
         
         shareButton.enabled = true
