@@ -273,7 +273,7 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="jCf-yJ-oSE"/>
-                                    <barButtonItem systemItem="done" id="gvl-o0-VvN">
+                                    <barButtonItem title="Item" id="gvl-o0-VvN">
                                         <connections>
                                             <action selector="userCanceledEdit:" destination="BYZ-38-t0r" id="cCu-Of-AWh"/>
                                         </connections>
