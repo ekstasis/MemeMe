@@ -19,21 +19,16 @@ extension UIImageView {
         let imageSize = image!.size
         let imageRatio = imageSize.width / imageSize.height
         let viewRatio = boundsWidth / boundsHeight
-        
         // image is portrait
         if ( viewRatio > imageRatio ) {
             let scale = boundsHeight / imageSize.height
             let width = scale * imageSize.width
-        //  because image above was grainy, try drawView technique again
-//            let topLeftX = CGFloat(0.0)
             let topLeftX = (boundsWidth - width) * 0.5
             return CGRectMake(topLeftX, 0, width, boundsHeight)
         } else {
             //image is landscape
             let scale = boundsWidth / imageSize.width
             let height = scale * imageSize.height
-        //  because image above was grainy, try drawView technique again
-//            let topLeftY = CGFloat(0.0)
             let topLeftY = (boundsHeight - height) * 0.5
             return CGRectMake(0, topLeftY, boundsWidth,height)
         }
@@ -187,52 +182,45 @@ UINavigationControllerDelegate, UITextFieldDelegate {
     func renderMeme() -> UIImage {
         
         // Get bounds of album image only
-        let imageSize = picView.displayedImageFrame()
+        let imageFrame = picView.displayedImageFrame()
         
-       //  because image above was grainy, try drawView technique again
-        UIGraphicsBeginImageContext(imageBounds.size)
-        picView.bounds = imageBounds
-        picView.drawViewHierarchyInRect(imageBounds, afterScreenUpdates: true)
+        // take snapshot of image -- returns a UIView, not an image
+        let imageY = imageFrame.origin.y + picView.frame.origin.y
+        let imageX = imageFrame.origin.x
+        let imageOrigin = CGPoint(x: imageX, y: imageY)
+        let imageRect = CGRect(origin: imageOrigin, size: imageFrame.size)
+        let renderedImageView = view.resizableSnapshotViewFromRect(imageRect, afterScreenUpdates: true, withCapInsets:  UIEdgeInsetsZero)
+        
+        // convert snapshot UIView to UIImage
+        UIGraphicsBeginImageContext(imageFrame.size)
+        renderedImageView.drawViewHierarchyInRect(renderedImageView.bounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        
-          // take snapshot of image -- returns a UIView, not an image
-//        let imageY = imageFrame.origin.y + picView.frame.origin.y
-//        let imageX = imageFrame.origin.x
-//        let imageOrigin = CGPoint(x: imageX, y: imageY)
-//        let imageRect = CGRect(origin: imageOrigin, size: imageFrame.size)
-//        let renderedImageView = view.resizableSnapshotViewFromRect(imageRect, afterScreenUpdates: true, withCapInsets:  UIEdgeInsetsZero)
-//        
-//        // convert snapshot UIView to UIImage
-//        UIGraphicsBeginImageContext(imageFrame.size)
-//        renderedImageView.drawViewHierarchyInRect(renderedImageView.bounds, afterScreenUpdates: true)
-//        let memedImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-        
-       
-        
-        
         return memedImage
     }
     
     @IBAction func userCanceledEdit(sender: UIBarButtonItem) {
+        //        picView.image = nil
+        //        topTextField.text = nil
+        //        bottomTextField.text = nil
+        //
+        //        shouldEnableTopButtons(false)
+        //       navigationController?.popViewControllerAnimated(true)
         
+        // Returns to Sent Memes as per Rubrick unless editing previous meme in which case return to detail view
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    // To deal with sliding view up AND positioning text again when done
     func subscribeToKeyboardNotification() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidShow:", name: UIKeyboardDidShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidHide:", name: UIKeyboardDidHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidShow:", name: UIKeyboardDidShowNotification, object: nil)
     }
     
     func unSubscribeToKeyboardNotification() {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardDidHideNotification, object: nil)
     }
     
     func keyboardWillShow(notification:  NSNotification) {
