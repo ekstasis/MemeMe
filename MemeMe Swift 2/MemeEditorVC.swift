@@ -189,7 +189,7 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         let renderedImageView = view.resizableSnapshotViewFromRect(imageRect, afterScreenUpdates: true, withCapInsets:  UIEdgeInsetsZero)
         
         // convert snapshot from UIView to UIImage
-        UIGraphicsBeginImageContext(imageFrame.size)
+        UIGraphicsBeginImageContextWithOptions(imageFrame.size, true, 0)
         renderedImageView.drawViewHierarchyInRect(renderedImageView.bounds, afterScreenUpdates: true)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
