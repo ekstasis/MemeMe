@@ -173,7 +173,7 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
             appDelegate.allMemes.append(newMeme)      // new meme
         }
         
-        appDelegate.saveMemes()
+//        appDelegate.saveMemes()
     }
     
     func renderMeme() -> UIImage {
@@ -281,14 +281,15 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         
         let pickedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
         picView.image = pickedImage
-        dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: {
         
-        positionTextFields()
+        self.positionTextFields()
         
-        shareButton.enabled = true
-        topTextField.enabled = true
-        bottomTextField.enabled = true
-        cancelButton.enabled = true
+        self.shareButton.enabled = true
+        self.topTextField.enabled = true
+        self.bottomTextField.enabled = true
+        self.cancelButton.enabled = true
+        })
     }
     
     // Text Field Delegate Functions
