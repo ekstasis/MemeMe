@@ -16,17 +16,21 @@ class MemeMeTableViewController: UITableViewController {
     
     override func viewWillAppear(animated: Bool) {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "newMeme")
-        tableView.allowsMultipleSelection = false
         refreshTable()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        if sentMemes.isEmpty {
+            let editVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor")
+            tabBarController?.presentViewController(editVC!, animated: true, completion: nil)
+        }
     }
     
     func refreshTable() {
         sentMemes = appDelegate.allMemes
-        if sentMemes.isEmpty {
-            let editVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor")
-            presentViewController(editVC!, animated: true, completion: nil)
+        if sentMemes != nil {
+            tableView.reloadData()
         }
-        tableView.reloadData()
     }
     
     // Triggered by rightBarButtonItem

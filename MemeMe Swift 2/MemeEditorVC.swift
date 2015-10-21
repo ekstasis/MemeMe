@@ -8,36 +8,10 @@
 
 import UIKit
 
-/*
-* Extension that gives bounds of the image that was picked from album/camera
-*/
-extension UIImageView {
-    
-    func displayedImageFrame() -> CGRect {
-        let boundsWidth = bounds.size.width
-        let boundsHeight = bounds.size.height
-        let imageSize = image!.size
-        let imageRatio = imageSize.width / imageSize.height
-        let viewRatio = boundsWidth / boundsHeight
-        
-        // image is portrait
-        if ( viewRatio > imageRatio ) {
-            let scale = boundsHeight / imageSize.height
-            let width = scale * imageSize.width
-            let topLeftX = (boundsWidth - width) * 0.5
-            return CGRectMake(topLeftX, 0, width, boundsHeight)
-            
-        } else {
-            //image is landscape
-            let scale = boundsWidth / imageSize.width
-            let height = scale * imageSize.height
-            let topLeftY = (boundsHeight - height) * 0.5
-            return CGRectMake(0, topLeftY, boundsWidth,height)
-        }
-    }
-}
 
-// CLASS
+/* 
+* Class Definition
+*/
 class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -178,7 +152,16 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
     
     func renderMeme() -> UIImage {
         
-        // Get bounds of album image only
+        // User hasn't changed text, we don't want placeholder text in image
+        if topTextField.text == "" {
+            topTextField.placeholder = nil
+        }
+        if bottomTextField.text == "" {
+            bottomTextField.placeholder = nil
+        }
+        
+        
+        // Get bounds of album image only.  See UIImageView extension end of file.
         let imageFrame = picView.displayedImageFrame()
         
         // take snapshot of image -- returns a UIView, not an image
@@ -203,6 +186,7 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         picView.setNeedsLayout()
         picView.layoutIfNeeded()
         
+        // Get bounds of album image only.  See UIImageView extension end of file.
         let imageFrame = picView.displayedImageFrame()
         let imageWidth = imageFrame.size.width
         let imageViewWidth = picView.bounds.size.width
@@ -304,6 +288,35 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         bottomTextIsBeingEdited = (textField == bottomTextField)
         
         return true
+    }
+}
+
+/*
+* Extension that gives bounds of the image that was picked from album/camera
+*/
+extension UIImageView {
+    
+    func displayedImageFrame() -> CGRect {
+        let boundsWidth = bounds.size.width
+        let boundsHeight = bounds.size.height
+        let imageSize = image!.size
+        let imageRatio = imageSize.width / imageSize.height
+        let viewRatio = boundsWidth / boundsHeight
+        
+        // image is portrait
+        if ( viewRatio > imageRatio ) {
+            let scale = boundsHeight / imageSize.height
+            let width = scale * imageSize.width
+            let topLeftX = (boundsWidth - width) * 0.5
+            return CGRectMake(topLeftX, 0, width, boundsHeight)
+            
+        } else {
+            //image is landscape
+            let scale = boundsWidth / imageSize.width
+            let height = scale * imageSize.height
+            let topLeftY = (boundsHeight - height) * 0.5
+            return CGRectMake(0, topLeftY, boundsWidth,height)
+        }
     }
 }
 
