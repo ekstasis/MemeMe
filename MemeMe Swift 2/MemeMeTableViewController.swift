@@ -14,7 +14,7 @@ class MemeMeTableViewController: UITableViewController {
     
     // Necessary to allow Cancel button before image picked
     var tableEmptyAfterLaunch = true
-    
+
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     override func viewWillAppear(animated: Bool) {
@@ -24,6 +24,10 @@ class MemeMeTableViewController: UITableViewController {
         navigationItem.leftBarButtonItem = editButtonItem()
         
         refreshTable()
+        
+        setEditing(false, animated: true)
+
+        navigationItem.leftBarButtonItem!.enabled = !sentMemes.isEmpty
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -78,10 +82,13 @@ class MemeMeTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if editingStyle == UITableViewCellEditingStyle.Delete {
+            
             appDelegate.allMemes.removeAtIndex(indexPath.row)
-            sentMemes = appDelegate.allMemes
+            sentMemes.removeAtIndex(indexPath.row)
+            
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-            refreshTable()
+            
+            tableView.reloadData()
         }
     }
     
