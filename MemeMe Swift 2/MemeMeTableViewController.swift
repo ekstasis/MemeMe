@@ -60,12 +60,10 @@ class MemeMeTableViewController: UITableViewController {
     // Table view data source
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        super.tableView(tableView, numberOfRowsInSection: section)
         return sentMemes.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        super.tableView(tableView, cellForRowAtIndexPath: indexPath)
         
         let meme = sentMemes[indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("SentMemeTableCell", forIndexPath: indexPath)
@@ -77,14 +75,7 @@ class MemeMeTableViewController: UITableViewController {
         return cell
     }
     
-    // Enables deleting
-    //override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-      //  super.tableView(tableView, canEditRowAtIndexPath: indexPath)
-        //return true
-    //}
-    
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        super.tableView(tableView, commitEditingStyle: editingStyle, forRowAtIndexPath: indexPath)
         
         if editingStyle == UITableViewCellEditingStyle.Delete {
             appDelegate.allMemes.removeAtIndex(indexPath.row)
@@ -97,7 +88,6 @@ class MemeMeTableViewController: UITableViewController {
     // Table View Delegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
         
         let detailVC = storyboard?.instantiateViewControllerWithIdentifier("DetailView") as! MemeMeDetailViewController
         detailVC.memeIndex = indexPath.row
@@ -105,7 +95,6 @@ class MemeMeTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        super.tableView(tableView, editingStyleForRowAtIndexPath: indexPath)
         
         return .Delete
     }
