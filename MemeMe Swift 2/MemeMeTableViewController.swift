@@ -98,7 +98,7 @@ class MemeMeTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return .Insert
+        return .Delete
     }
     
 }
