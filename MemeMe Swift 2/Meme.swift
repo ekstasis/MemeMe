@@ -15,38 +15,3 @@ struct Meme {
     let image : UIImage
     let memedImage : UIImage
 }
-
-/* 
- * Converts Meme struct to codable class so that it can be saved to NSUserDefaults
-*/
-class SentMemeWrapper : NSObject, NSCoding {
-    var topText : String
-    var bottomText : String
-    var image : UIImage
-    var memedImage : UIImage
-    
-    func convertToStruct() -> Meme {
-        return Meme(topText: topText, bottomText: bottomText, image: image, memedImage: memedImage)
-    }
-    
-    init(inMeme : Meme) {
-        topText = inMeme.topText
-        bottomText = inMeme.bottomText
-        image = inMeme.image
-        memedImage = inMeme.memedImage
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        topText = aDecoder.decodeObjectForKey("topText") as! String
-        bottomText = aDecoder.decodeObjectForKey("bottomText") as! String
-        image = aDecoder.decodeObjectForKey("image") as! UIImage
-        memedImage = aDecoder.decodeObjectForKey("memedImage") as! UIImage
-    }
-    
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(topText, forKey: "topText")
-        aCoder.encodeObject(bottomText, forKey: "bottomText")
-        aCoder.encodeObject(image, forKey: "image")
-        aCoder.encodeObject(memedImage, forKey: "memedImage")
-    }
-}

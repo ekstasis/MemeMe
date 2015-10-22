@@ -64,13 +64,6 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         
         cancelButton.title = "Cancel"
         
-        if picView.image != nil {
-            positionTextFields()
-            cancelButton.enabled = true
-        } else {
-            cancelButton.enabled = false
-        }
-        
         subscribeToKeyboardNotification()
     }
     
@@ -127,7 +120,6 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         
         activityVC.completionWithItemsHandler = { (activity, success, items, error) in
             if success {
-                self.cancelButton.enabled = true
                 self.saveMeme()
                 self.cancelButton.title = "Done"
             }
@@ -266,13 +258,12 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         let pickedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
         picView.image = pickedImage
         dismissViewControllerAnimated(true, completion: {
-        
-        self.positionTextFields()
-        
-        self.shareButton.enabled = true
-        self.topTextField.enabled = true
-        self.bottomTextField.enabled = true
-        self.cancelButton.enabled = true
+            
+            self.positionTextFields()
+            
+            self.shareButton.enabled = true
+            self.topTextField.enabled = true
+            self.bottomTextField.enabled = true
         })
     }
     

@@ -12,31 +12,47 @@ class MemeMeTableViewController: UITableViewController {
 
     var sentMemes : [Meme]!
     
+    // Necessary to allow Cancel button before image picked
+    var tableEmptyAfterLaunch = true
+    
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "newMeme")
+        navigationItem.leftBarButtonItem = editButtonItem()
+        
         refreshTable()
     }
     
     override func viewDidAppear(animated: Bool) {
-        if sentMemes.isEmpty {
+        super.viewDidAppear(animated)
+        
+        // EditVC should present after initial empty launch with empty table
+        if tableEmptyAfterLaunch {
             let editVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor")
             tabBarController?.presentViewController(editVC!, animated: true, completion: nil)
+            tableEmptyAfterLaunch = false
         }
     }
     
     func refreshTable() {
         sentMemes = appDelegate.allMemes
-        if sentMemes != nil {
-            tableView.reloadData()
+        guard sentMemes != nil else {
+            return
         }
+        tableView.reloadData()
     }
     
     // Triggered by rightBarButtonItem
     func newMeme() {
         let editVC = storyboard?.instantiateViewControllerWithIdentifier("MemeEditor")
         presentViewController(editVC!, animated: true, completion: nil)
+    }
+    
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
     }
 
     // Table view data source
@@ -57,15 +73,6 @@ class MemeMeTableViewController: UITableViewController {
         return cell
     }
     
-    // Table view delegate
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        let detailVC = storyboard?.instantiateViewControllerWithIdentifier("DetailView") as! MemeMeDetailViewController
-        detailVC.memeIndex = indexPath.row
-        navigationController?.pushViewController(detailVC, animated: true)
-    }
-    
     // Enables deleting
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
@@ -75,7 +82,23 @@ class MemeMeTableViewController: UITableViewController {
         
         if editingStyle == UITableViewCellEditingStyle.Delete {
             appDelegate.allMemes.removeAtIndex(indexPath.row)
+            sentMemes = appDelegate.allMemes
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             refreshTable()
         }
     }
+    
+    // Table View Delegate
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let detailVC = storyboard?.instantiateViewControllerWithIdentifier("DetailView") as! MemeMeDetailViewController
+        detailVC.memeIndex = indexPath.row
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return .Insert
+    }
+    
 }
