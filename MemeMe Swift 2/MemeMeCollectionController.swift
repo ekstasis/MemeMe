@@ -17,6 +17,8 @@ class MemeMeCollectionController: UICollectionViewController {
     let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "newMeme")
         refreshCollection()
     }
@@ -34,10 +36,12 @@ class MemeMeCollectionController: UICollectionViewController {
     // Collection view data source
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        super.collectionView(collectionView, numberOfItemsInSection: section)
         return sentMemes.count
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
         
         let meme = sentMemes[indexPath.row]
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("Collection Cell", forIndexPath: indexPath) as! MemeMeCollectionViewCell
@@ -47,6 +51,7 @@ class MemeMeCollectionController: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        super.collectionView(collectionView, didSelectItemAtIndexPath: indexPath)
         
         let detailVC = storyboard?.instantiateViewControllerWithIdentifier("DetailView") as! MemeMeDetailViewController
         detailVC.memeIndex = indexPath.row
