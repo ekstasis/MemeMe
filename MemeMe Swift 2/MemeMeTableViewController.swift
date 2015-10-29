@@ -88,6 +88,10 @@ class MemeMeTableViewController: UITableViewController {
             
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             
+            if sentMemes.isEmpty {
+                setEditing(false, animated: true)
+            }
+            
             tableView.reloadData()
         }
     }

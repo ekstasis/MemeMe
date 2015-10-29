@@ -42,59 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MemeMe Swift 2/MemeEditorVC.swift"
-            timestampString = "467227255.467225"
+            timestampString = "467844750.287672"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "287"
-            endingLineNumber = "287">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MemeMe Swift 2/MemeEditorVC.swift"
-            timestampString = "467154007.332135"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "viewWillDisappear(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MemeMe Swift 2/MemeEditorVC.swift"
-            timestampString = "467154007.332135"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "setMemeTextAttributes()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "MemeMe Swift 2/MemeEditorVC.swift"
-            timestampString = "467154007.332135"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "setMemeTextAttributes()"
-            landmarkType = "5">
+            startingLineNumber = "284"
+            endingLineNumber = "284">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -118,17 +70,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "MemeMe Swift 2/MemeMeTableViewController.swift"
-            timestampString = "467236491.119249"
+            timestampString = "467851612.667781"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
-            landmarkName = "MemeMeTableViewController"
-            landmarkType = "3">
+            startingLineNumber = "104"
+            endingLineNumber = "104"
+            landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -137,13 +89,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "MemeMe Swift 2/MemeMeTableViewController.swift"
-            timestampString = "467236491.119249"
+            filePath = "MemeMe Swift 2/MemeEditorVC.swift"
+            timestampString = "467843222.848447"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
-            landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "renderMeme()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

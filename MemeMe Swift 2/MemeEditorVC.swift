@@ -138,8 +138,6 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         } else {
             appDelegate.allMemes.append(newMeme)      // new meme
         }
-        
-//        appDelegate.saveMemes()
     }
     
     func renderMeme() -> UIImage {
@@ -151,7 +149,6 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         if bottomTextField.text == "" {
             bottomTextField.placeholder = nil
         }
-        
         
         // Get bounds of album image only.  See UIImageView extension end of file.
         let imageFrame = picView.displayedImageFrame()

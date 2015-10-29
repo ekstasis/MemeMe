@@ -23,7 +23,11 @@ class MemeMeDetailViewController: UIViewController {
         memeImageView.image = meme.memedImage
         
         let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "showEditor")
-        navigationItem.setRightBarButtonItem(editButton, animated: true)
+        let deleteButton = UIBarButtonItem(title: "Delete  |", style: .Plain, target: self, action: "deleteMeme")
+        
+        let rightButtonItems = [editButton, deleteButton]
+        navigationItem.setRightBarButtonItems(rightButtonItems, animated: true)
+        
         tabBarController?.tabBar.hidden = true
     }
     
@@ -38,4 +42,10 @@ class MemeMeDetailViewController: UIViewController {
         editorVC.memeIndex = memeIndex
         presentViewController(editorVC, animated: true, completion: nil)
     }
+    
+    func deleteMeme() {
+        appDelegate.allMemes.removeAtIndex(memeIndex)
+        navigationController?.popToRootViewControllerAnimated(true)
+    }
 }
+
