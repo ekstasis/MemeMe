@@ -139,8 +139,6 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         } else {
             appDelegate.allMemes.append(newMeme)      // new meme
         }
-        
-//        appDelegate.saveMemes()
     }
     
     func renderMeme() -> UIImage {
