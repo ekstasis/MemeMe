@@ -49,6 +49,7 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
             picView.image = meme.image
             topTextField.text = meme.topText
             bottomTextField.text = meme.bottomText
+            positionTextFields()
         } else {
             // Don't allow text editing until image chosen for new meme
             topTextField.enabled = false
@@ -124,7 +125,7 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
                 self.cancelButton.title = "Done"
             }
         }
-        presentViewController(activityVC, animated: true, completion: nil)
+        presentViewController(activityVC, animated: false, completion: nil)
         
         // TODO:  Make this work for iPad
     }
@@ -138,17 +139,11 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         } else {
             appDelegate.allMemes.append(newMeme)      // new meme
         }
+        
+//        appDelegate.saveMemes()
     }
     
     func renderMeme() -> UIImage {
-        
-        // User hasn't changed text, we don't want placeholder text in image
-        if topTextField.text == "" {
-            topTextField.placeholder = nil
-        }
-        if bottomTextField.text == "" {
-            bottomTextField.placeholder = nil
-        }
         
         // Get bounds of album image only.  See UIImageView extension end of file.
         let imageFrame = picView.displayedImageFrame()
@@ -255,13 +250,13 @@ class MemeEditorVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
         
         let pickedImage = info["UIImagePickerControllerOriginalImage"] as? UIImage
         picView.image = pickedImage
-        dismissViewControllerAnimated(true, completion: {
-            
-            self.positionTextFields()
-            
-            self.shareButton.enabled = true
-            self.topTextField.enabled = true
-            self.bottomTextField.enabled = true
+        
+        dismissViewControllerAnimated(true,            
+            completion: {
+                self.positionTextFields()
+                self.shareButton.enabled = true
+                self.topTextField.enabled = true
+                self.bottomTextField.enabled = true
         })
     }
     
